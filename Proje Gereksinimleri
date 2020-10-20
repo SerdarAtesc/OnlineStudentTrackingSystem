@@ -1,9 +1,12 @@
-Fonksiyonel Gereksinimler
+# Fonksiyonel Gereksinimler
 
-Öğrenci Kayıt
-Sınıf Kayıt
-Öğretmen Kayıt
-Ders Kayıt
+Rehber öğretmen öğrenci kayıt edebilecek.
+Rehber öğretmen veya öğretmen sınıf açabilecek.
+Sisteme öğretmen kayıt edebilecek.
+Öğretmen ders kayıt edebilecek.
+Öğretmen öğrenciye ödev verebilecek.
+Öğrenci ödevlere geri dönüş yapabilecek.
+
 
 
 Fonksiyonel Olmayan Gereksinimler
