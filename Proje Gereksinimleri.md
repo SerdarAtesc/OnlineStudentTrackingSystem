@@ -15,3 +15,4 @@
 ### Sistem içerisinde bulunan öğrenci ve öğretmenlerin kişisel verilerinin korunması sağlanacak.
 ### Sistem aynı anda 100 kişiye hizmet verebilecek.
 ### Sistem görünümü Mobil,Tablet,Masaüstü(Responsive) olarak görüntülenebilecek.
+
