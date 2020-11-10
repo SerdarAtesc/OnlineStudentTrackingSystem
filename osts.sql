@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Nov 10, 2020 at 01:37 PM
+-- Generation Time: Nov 10, 2020 at 10:21 PM
 -- Server version: 8.0.17
 -- PHP Version: 7.3.10
 
@@ -21,6 +21,67 @@ SET time_zone = "+00:00";
 --
 -- Database: `osts`
 --
+
+DELIMITER $$
+--
+-- Procedures
+--
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_LOGIN` (IN `_username` VARCHAR(50), IN `_password` INT(50))  READS SQL DATA
+BEGIN
+
+DECLARE _usertype INT DEFAULT 0;
+DECLARE _userdetail INT DEFAULT 0;
+
+SET _usertype=(SELECT login.login_type from login WHERE
+            
+              login.login_name=_username AND
+               login.login_password=_password AND login.isActive=1
+              );
+              
+    SET _userdetail=(SELECT login.login_detail_id from login WHERE
+              
+              login.login_name=_username AND
+               login.login_password=_password AND
+                     login.isActive=1
+              );      
+       IF _usertype=1 THEN
+              
+       SELECT  login.login_id,login.login_name,login.login_password,
+       login.login_type,students.student_number,students.student_name,students.student_lastname,students.student_mail,students.student_class_id,classes.class_title from login 
+       LEFT JOIN students on students.student_id=login.login_detail_id
+       LEFT JOIN classes on students.student_class_id=classes.class_id  
+       WHERE login.login_name=_username AND login.login_password=_password;
+       
+       END IF; 
+              
+        IF _usertype=2 THEN
+              
+       SELECT login.login_name,login.login_password,login.login_type,login.login_id,teachers.teacher_name,teachers.teacher_lastname,
+       teachers.teacher_mail,teachers.teacher_phone,teachers.teacher_id
+       from login left JOIN teachers  on teachers.teacher_id=login.login_detail_id WHERE login.isActive=1 And ateachers.isActive=1 And login.login_name=_username AND
+       login.login_password=_password;
+       
+       END IF;      
+       
+       
+       IF _usertype=3 THEN
+              
+       SELECT login.login_name,login.login_password,login.login_id,
+ateachers.ateacher_id,ateachers.ateacher_name,login.login_type,ateachers.ateacher_lastname,ateachers.ateacher_phone,ateachers.ateacher_mail
+from login left JOIN ateachers on login.login_detail_id=ateachers.ateacher_id WHERE login.isActive=1 And login.login_name=_username AND
+       login.login_password=_password;
+       
+       END IF;    
+       
+       
+       
+      
+   
+
+
+END$$
+
+DELIMITER ;
 
 -- --------------------------------------------------------
 
