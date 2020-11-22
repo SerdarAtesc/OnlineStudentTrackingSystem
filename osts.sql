@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Nov 10, 2020 at 10:21 PM
+-- Generation Time: Nov 22, 2020 at 09:29 AM
 -- Server version: 8.0.17
 -- PHP Version: 7.3.10
 
@@ -81,6 +81,55 @@ from login left JOIN ateachers on login.login_detail_id=ateachers.ateacher_id WH
 
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_STUDENT_ADD` (IN `_name` TEXT, IN `_lastname` TEXT, IN `_mail` TEXT, IN `_phone` TEXT, IN `_classid` INT, IN `_username` TEXT, IN `_password` TEXT)  BEGIN
+
+DECLARE _studentid INT;
+DECLARE _studentdetailid INT;
+
+SET _studentid=(SELECT FLOOR(RAND() * 99999999.99));
+
+
+INSERT INTO students
+(students.student_number,
+ students.student_name,
+ students.student_lastname,
+  students.student_phone,
+ students.student_mail,
+ students.student_class_id)
+ VALUES
+ (_studentid,
+  _name,
+  _lastname,
+  _phone,
+ _mail
+  ,_classid);
+ 
+SET _studentdetailid=LAST_INSERT_ID();
+ 
+INSERT INTO login
+(login.login_name,
+ login.login_password,
+ login.login_type,
+ login.login_detail_id)
+ VALUES
+ (_username,
+  _password,
+  1,
+  _studentdetailid);
+  
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_STUDENT_DELETE` (IN `_id` INT)  MODIFIES SQL DATA
+BEGIN
+
+UPDATE students SET students.isActive=0 WHERE students.isActive=0;
+UPDATE login SET login.isActive=0 WHERE 
+
+login.login_detail_id=_id AND login.login_type=1;
+
+
+END$$
+
 DELIMITER ;
 
 -- --------------------------------------------------------
@@ -110,6 +159,20 @@ CREATE TABLE `classes` (
   `class_detail` text NOT NULL,
   `isActive` tinyint(1) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `classes`
+--
+
+INSERT INTO `classes` (`class_id`, `class_year`, `class_title`, `class_detail`, `isActive`) VALUES
+(1, 2020, '1. Sınıf', '1. Sınıflar burada yer almaktadır.', 1),
+(2, 2020, '2. Sınıf', '2. Sınıflar burada yer almaktadır.', 1),
+(3, 2020, '3. Sınıf', '3. Sınıflar burada yer almaktadır.', 1),
+(4, 2020, '4. Sınıf', '4. Sınıflar burada yer almaktadır.', 1),
+(5, 2020, '5. Sınıf', '5. Sınıflar burada yer almaktadır.', 1),
+(6, 2020, '6. Sınıf', '6. Sınıflar burada yer almaktadır.', 1),
+(7, 2020, '7. Sınıf', '7. Sınıflar burada yer almaktadır.', 1),
+(8, 2020, '8. Sınıf', '8. Sınıflar burada yer almaktadır.', 1);
 
 -- --------------------------------------------------------
 
@@ -158,6 +221,15 @@ CREATE TABLE `lectures` (
   `isActive` tinyint(1) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+--
+-- Dumping data for table `lectures`
+--
+
+INSERT INTO `lectures` (`lecture_id`, `lecture_year`, `lecture_title`, `lecture_detail`, `isActive`) VALUES
+(1, 2020, 'Fen Bilgisi', 'Fen Eğitimi verilmektedir', 1),
+(2, 2020, 'Türk Edebiyatı', 'Yeni nesil Türk Edebiyatından bahsedilir.', 1),
+(3, 2020, 'Matematik', 'Limit ve Türev konuları ele alınmaktadır.', 1);
+
 -- --------------------------------------------------------
 
 --
@@ -186,6 +258,15 @@ CREATE TABLE `login` (
   `isActive` tinyint(1) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+--
+-- Dumping data for table `login`
+--
+
+INSERT INTO `login` (`login_id`, `login_name`, `login_password`, `login_detail_id`, `login_type`, `isActive`) VALUES
+(1, 'kullanici_adi', 'sifre', 1, 1, 1),
+(2, 'ahmet_bey', 'ahmet123', 1, 2, 1),
+(3, 'hakann', 'hakan123', 2, 2, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -198,9 +279,17 @@ CREATE TABLE `students` (
   `student_name` varchar(75) NOT NULL,
   `student_lastname` varchar(75) NOT NULL,
   `student_mail` varchar(75) NOT NULL,
+  `student_phone` varchar(75) NOT NULL,
   `student_class_id` int(11) NOT NULL,
-  `isActive` int(11) NOT NULL
+  `isActive` int(11) DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `students`
+--
+
+INSERT INTO `students` (`student_id`, `student_number`, `student_name`, `student_lastname`, `student_mail`, `student_phone`, `student_class_id`, `isActive`) VALUES
+(1, '62244414', 'Test', 'Test', 'test@mail.com', '5312456123', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -214,8 +303,17 @@ CREATE TABLE `teachers` (
   `teacher_lastname` varchar(75) NOT NULL,
   `teacher_mail` varchar(50) NOT NULL,
   `teacher_phone` varchar(50) NOT NULL,
+  `teacher_detail` text NOT NULL,
   `isActive` tinyint(1) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `teachers`
+--
+
+INSERT INTO `teachers` (`teacher_id`, `teacher_name`, `teacher_lastname`, `teacher_mail`, `teacher_phone`, `teacher_detail`, `isActive`) VALUES
+(1, 'Ahmet Hoca', 'Bey', 'ahmetmail@mail.com', '5325520', 'Matematik ve Fen alanlarında uzman ayrıca edebiyat eğitimi almış.', 1),
+(2, 'Hakan', 'Hoca', 'hakan@mail.com', '02132102', 'Hakan bey Edebiyat uzmanıdır.', 1);
 
 --
 -- Indexes for dumped tables
@@ -261,13 +359,15 @@ ALTER TABLE `lecture_teachers`
 -- Indexes for table `login`
 --
 ALTER TABLE `login`
-  ADD PRIMARY KEY (`login_id`);
+  ADD PRIMARY KEY (`login_id`),
+  ADD UNIQUE KEY `login_name` (`login_name`);
 
 --
 -- Indexes for table `students`
 --
 ALTER TABLE `students`
-  ADD PRIMARY KEY (`student_id`);
+  ADD PRIMARY KEY (`student_id`),
+  ADD UNIQUE KEY `student_number` (`student_number`);
 
 --
 -- Indexes for table `teachers`
@@ -289,7 +389,7 @@ ALTER TABLE `ateachers`
 -- AUTO_INCREMENT for table `classes`
 --
 ALTER TABLE `classes`
-  MODIFY `class_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `class_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `homeworks`
@@ -307,7 +407,7 @@ ALTER TABLE `homework_publishs`
 -- AUTO_INCREMENT for table `lectures`
 --
 ALTER TABLE `lectures`
-  MODIFY `lecture_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `lecture_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `lecture_teachers`
@@ -319,19 +419,19 @@ ALTER TABLE `lecture_teachers`
 -- AUTO_INCREMENT for table `login`
 --
 ALTER TABLE `login`
-  MODIFY `login_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `login_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `students`
 --
 ALTER TABLE `students`
-  MODIFY `student_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `student_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `teachers`
 --
 ALTER TABLE `teachers`
-  MODIFY `teacher_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `teacher_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

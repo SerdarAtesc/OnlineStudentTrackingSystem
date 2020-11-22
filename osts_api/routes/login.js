@@ -3,8 +3,10 @@ var router = express.Router();
 
 router.post('/', function (req, res, next) {
 
-    var postParams = req.body.data;
-    var querryParams = [postParams.username, postParams.password]
+    //var postParams = req.body.data;
+  var postParams = req.body;
+
+  var querryParams = [postParams.username, postParams.password]
 
     var sqlQuerry = 'CALL SP_LOGIN(?,?)';
     db.query(sqlQuerry, querryParams, function (err, results) {
