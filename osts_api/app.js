@@ -6,7 +6,7 @@ var logger = require('morgan');
 var mysql = require('mysql');
 var bodyParser = require('body-parser')
 var fsg = require('fs');
-
+var cors= require('cors');
 
 var loginRouter = require('./routes/login');
 var indexRouter = require('./routes/index');
@@ -15,8 +15,12 @@ var studentRouter = require('./routes/students');
 
 var app = express();
 
-const port = 3006;
+const port = 3000;
 
+app.use(cors({
+  origin:['http://localhost:4200','http://127.0.0.1:4200'],
+  credentials:true
+}));
 
 
 // view engine setup
@@ -44,7 +48,7 @@ app.use('/student', studentRouter);
 var connection = mysql.createConnection({
   host     : 'localhost',
   user     : 'root',
-  password : '12345678',
+  password : 'serdar123',
   database : 'osts',
 });
 
@@ -86,9 +90,9 @@ app.listen(port, () => {
 
 // CORS
 
-app.all("/*", function (req, res, next) {
+app.all("http://localhost:3000", function (req, res, next) {
 
-  res.header("Access-Control-Allow-Origin", "/*");
+  res.header("Access-Control-Allow-Origin", "http://localhost:3000");
   res.header("Access-Control-Allow-Credentials",true);
   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
   res.header('Access-Control-Allow-Headers', 'Content-Type,Accept,X-Access-Token,X-Key,Authorization,X-Requested-With,Origin,Access-Control-Allow-Origin,Access-Control-Allow-Credentials');
