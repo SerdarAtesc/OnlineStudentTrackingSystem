@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Nov 22, 2020 at 01:18 PM
+-- Generation Time: Nov 22, 2020 at 05:55 PM
 -- Server version: 8.0.17
 -- PHP Version: 7.3.10
 
@@ -157,12 +157,17 @@ INSERT INTO login
   1,
   _studentdetailid);
   
+  
+  SELECT * FROM login WHERE login.login_id=LAST_INSERT_ID();
+
+  
+  
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_STUDENT_DELETE` (IN `_id` INT)  MODIFIES SQL DATA
 BEGIN
 
-UPDATE students SET students.isActive=0 WHERE students.isActive=0;
+UPDATE students SET students.isActive=0 WHERE students.isActive=0 AND students.student_id=_id;
 UPDATE login SET login.isActive=0 WHERE 
 
 login.login_detail_id=_id AND login.login_type=1;
@@ -324,7 +329,8 @@ CREATE TABLE `login` (
 INSERT INTO `login` (`login_id`, `login_name`, `login_password`, `login_detail_id`, `login_type`, `isActive`) VALUES
 (1, 'kullanici_adi', 'sifre', 1, 1, 1),
 (2, 'ahmet_bey', 'ahmet123', 1, 2, 1),
-(3, 'hakann', 'hakan123', 2, 2, 1);
+(3, 'hakann', 'hakan123', 2, 2, 1),
+(4, 'name', 'pass', 2, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -348,7 +354,8 @@ CREATE TABLE `students` (
 --
 
 INSERT INTO `students` (`student_id`, `student_number`, `student_name`, `student_lastname`, `student_mail`, `student_phone`, `student_class_id`, `isActive`) VALUES
-(1, '62244414', 'Test', 'Test', 'test@mail.com', '5312456123', 1, 1);
+(1, '62244414', 'Test', 'Test', 'test@mail.com', '5312456123', 1, 1),
+(2, '55181667', 'Ze', 'Te', 'zeze@mail.com', '123456', 4, 1);
 
 -- --------------------------------------------------------
 
@@ -504,13 +511,13 @@ ALTER TABLE `lecture_teachers`
 -- AUTO_INCREMENT for table `login`
 --
 ALTER TABLE `login`
-  MODIFY `login_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `login_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `students`
 --
 ALTER TABLE `students`
-  MODIFY `student_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `student_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `teachers`
