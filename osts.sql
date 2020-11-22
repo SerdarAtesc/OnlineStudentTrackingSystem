@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Nov 22, 2020 at 09:29 AM
+-- Generation Time: Nov 22, 2020 at 01:18 PM
 -- Server version: 8.0.17
 -- PHP Version: 7.3.10
 
@@ -81,6 +81,46 @@ from login left JOIN ateachers on login.login_detail_id=ateachers.ateacher_id WH
 
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_SHOW_STUDENTS` (IN `_class` INT)  READS SQL DATA
+BEGIN
+
+IF _class!=0 THEN
+
+SELECT 
+student_id,
+student_name,
+student_lastname,
+student_mail,
+student_phone,
+student_class_id,
+login.login_name,
+login_password
+FROM students 
+LEFT JOIN login on login.login_detail_id=students.student_id
+WHERE login.login_type=1 
+AND students.isActive=1 
+AND students.student_class_id=_class;
+ELSE
+
+SELECT 
+student_id,
+student_name,
+student_lastname,
+student_mail,
+student_phone,
+student_class_id,
+login.login_name,
+login_password
+FROM students 
+LEFT JOIN login on login.login_detail_id=students.student_id
+WHERE login.login_type=1 
+AND students.isActive=1;
+
+END IF ;
+
+
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_STUDENT_ADD` (IN `_name` TEXT, IN `_lastname` TEXT, IN `_mail` TEXT, IN `_phone` TEXT, IN `_classid` INT, IN `_username` TEXT, IN `_password` TEXT)  BEGIN
 
 DECLARE _studentid INT;
@@ -126,6 +166,25 @@ UPDATE students SET students.isActive=0 WHERE students.isActive=0;
 UPDATE login SET login.isActive=0 WHERE 
 
 login.login_detail_id=_id AND login.login_type=1;
+
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_STUDENT_UPDATE` (IN `_id` INT, IN `_username` TEXT, IN `_password` TEXT, IN `_mail` TEXT, IN `_phone` TEXT, IN `_classid` INT)  MODIFIES SQL DATA
+BEGIN
+
+UPDATE students SET 
+
+students.student_mail=_mail,
+students.student_phone=_phone,
+students.student_class_id=_classid WHERE students.student_id=_id;
+
+
+UPDATE login SET 
+login.login_name=_username,
+login.login_password=_password
+
+WHERE login.login_type=3 AND login.login_detail_id=_id;
 
 
 END$$
@@ -314,6 +373,32 @@ CREATE TABLE `teachers` (
 INSERT INTO `teachers` (`teacher_id`, `teacher_name`, `teacher_lastname`, `teacher_mail`, `teacher_phone`, `teacher_detail`, `isActive`) VALUES
 (1, 'Ahmet Hoca', 'Bey', 'ahmetmail@mail.com', '5325520', 'Matematik ve Fen alanlarında uzman ayrıca edebiyat eğitimi almış.', 1),
 (2, 'Hakan', 'Hoca', 'hakan@mail.com', '02132102', 'Hakan bey Edebiyat uzmanıdır.', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `view_all_students`
+-- (See below for the actual view)
+--
+CREATE TABLE `view_all_students` (
+`student_id` int(11)
+,`student_name` varchar(75)
+,`student_lastname` varchar(75)
+,`student_mail` varchar(75)
+,`student_phone` varchar(75)
+,`student_class_id` int(11)
+,`login_name` varchar(50)
+,`login_password` varchar(50)
+);
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `view_all_students`
+--
+DROP TABLE IF EXISTS `view_all_students`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `view_all_students`  AS  select `students`.`student_id` AS `student_id`,`students`.`student_name` AS `student_name`,`students`.`student_lastname` AS `student_lastname`,`students`.`student_mail` AS `student_mail`,`students`.`student_phone` AS `student_phone`,`students`.`student_class_id` AS `student_class_id`,`login`.`login_name` AS `login_name`,`login`.`login_password` AS `login_password` from (`students` left join `login` on((`students`.`student_id` = `login`.`login_detail_id`))) where (`login`.`login_type` = 3) ;
 
 --
 -- Indexes for dumped tables
