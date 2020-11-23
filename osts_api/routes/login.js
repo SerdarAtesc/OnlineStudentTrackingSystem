@@ -16,7 +16,7 @@ router.post('/', function (req, res, next) {
         }
         try {
             if (results.length > 0) {
-                res.json(results[0]);
+                res.json(results[0][0]);
                 return;
             } else {
                 res.json(0);
