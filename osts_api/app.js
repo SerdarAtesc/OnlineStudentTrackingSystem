@@ -12,6 +12,8 @@ var loginRouter = require('./routes/login');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var studentRouter = require('./routes/students');
+var homeworkRouter = require('./routes/homeworks');
+
 
 var app = express();
 
@@ -37,6 +39,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/login', loginRouter);
 app.use('/student', studentRouter);
+app.use('/homework', homeworkRouter);
 
 
 
