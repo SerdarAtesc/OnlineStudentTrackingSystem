@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Nov 22, 2020 at 05:55 PM
+-- Generation Time: Nov 23, 2020 at 08:14 PM
 -- Server version: 8.0.17
 -- PHP Version: 7.3.10
 
@@ -26,6 +26,23 @@ DELIMITER $$
 --
 -- Procedures
 --
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_HOMEWORK_ASSIGN` (IN `_title` TEXT, IN `_detail` TEXT, IN `_assignerid` INT, IN `_lectureid` INT, IN `_studentid` INT)  BEGIN
+
+INSERT INTO homeworks(homeworks.homework_title,homeworks.homework_detail,
+homeworks.homework_assigner_id,homeworks.homework_lecture_id,homeworks.homework_student_id,homeworks.homework_last_publish_date) VALUES (_title,_detail,_assignerid,_lectureid,_studentid,DATE_ADD(NOW(), INTERVAL 7 DAY));
+  SELECT * FROM homeworks WHERE homeworks.homework_id=LAST_INSERT_ID();
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_HOMEWORK_DELETE` (IN `_id` INT)  MODIFIES SQL DATA
+BEGIN
+
+UPDATE homeworks set homeworks.isActive=0 WHERE homeworks.homework_id=_id;
+
+
+
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_LOGIN` (IN `_username` VARCHAR(50), IN `_password` INT(50))  READS SQL DATA
 BEGIN
 
@@ -250,10 +267,19 @@ CREATE TABLE `homeworks` (
   `homework_detail` text NOT NULL,
   `homework_create_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `homework_assigner_id` int(11) NOT NULL,
-  `homework_assigned_class_id` int(11) NOT NULL,
+  `homework_lecture_id` int(11) NOT NULL,
+  `homework_student_id` int(11) NOT NULL,
   `homework_last_publish_date` datetime NOT NULL,
-  `isActive` tinyint(1) NOT NULL
+  `isActive` tinyint(1) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `homeworks`
+--
+
+INSERT INTO `homeworks` (`homework_id`, `homework_title`, `homework_detail`, `homework_create_date`, `homework_assigner_id`, `homework_lecture_id`, `homework_student_id`, `homework_last_publish_date`, `isActive`) VALUES
+(1, 'Ödev başlığı', 'Ödev deneme ', '2020-11-23 23:07:31', 1, 1, 1, '0000-00-00 00:00:00', 0),
+(2, 'Test', 'detay', '2020-11-23 23:10:10', 1, 1, 1, '2020-11-30 23:10:10', 1);
 
 -- --------------------------------------------------------
 
@@ -487,7 +513,7 @@ ALTER TABLE `classes`
 -- AUTO_INCREMENT for table `homeworks`
 --
 ALTER TABLE `homeworks`
-  MODIFY `homework_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `homework_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `homework_publishs`
