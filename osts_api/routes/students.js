@@ -1,3 +1,4 @@
+const { response } = require('express');
 var express = require('express');
 var router = express.Router();
 
@@ -29,16 +30,18 @@ router.post('/Add', function (req, res, next) {
     postParams.username, // giriş adı
     postParams.password // giriş şifresi
   ]
-
-  var sqlQuerry = 'CALL SP_STUDENT_ADD(?,?,?,?,?,?,?,?)';
+  console.log(postParams);
+  var sqlQuerry = 'CALL SP_STUDENT_ADD(?,?,?,?,?,?,?)';
   db.query(sqlQuerry, querryParams, function (err, results) {
     if (err) {
       res.json("database error")
+      console.log(err);
       return;
     }
     try {
       if (results["0"].length>0) {
-        res.json(results[0]);
+
+        res.send(JSON.stringify(1));
         return;
       } else {
         res.json(0);

@@ -20,11 +20,11 @@ router.post('/', function (req, res, next) {
                 return;
             } else {
                 res.json(0);
-                return;
+                return "";
             }
         } catch (ex) {
             res.json(-1);
-            return;
+            return ;
         }
     });
 

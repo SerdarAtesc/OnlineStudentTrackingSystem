@@ -1,6 +1,9 @@
+import { JsonPipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
+
 import { UserService } from '../user.service';
 
 
@@ -11,7 +14,10 @@ import { UserService } from '../user.service';
 })
 export class LoginComponent implements OnInit {
 
-  
+  login_detail_type;
+
+
+
   loginForm : FormGroup=new FormGroup({
     username:new FormControl(null,[Validators.required]),
     password:new FormControl(null, Validators.required)
@@ -19,7 +25,7 @@ export class LoginComponent implements OnInit {
 
 
 
-  constructor(private _router:Router, private _user:UserService) { }
+  constructor(private _router:Router, private _user:UserService, private cookie: CookieService) {  }
 
   ngOnInit(): void {
   
@@ -29,16 +35,58 @@ export class LoginComponent implements OnInit {
   }
 
 
+    
+
+
+
   login(){
     if(!this.loginForm.valid){
-      console.log('Invalid');return;
+      console.log('Invalid');
+      return ;
     }
-
-    // console.log(JSON.stringify(this.loginForm.value));
     this._user.login(JSON.stringify(this.loginForm.value))
-    .subscribe(
-      data=>{console.log(data);this._router.navigate(['userhome']);} ,
-      error=>console.error(error)
-    )
+    .subscribe( 
+      data=>{console.log(data);
+        var cookieobj = this.cookie;
+
+  
+        cookieobj.set("login-type",data["login_type"]);
+
+     
+
+        
+
+        if(data["login_type"]==1)
+        {
+          cookieobj.set("login",JSON.stringify(data));
+          this._router.navigate(['userhome']);
+          
+         
+
+
+        }
+        else if(data["login_type"]==2){
+
+          cookieobj.set("login",JSON.stringify(data));
+          this._router.navigate(['adminhome']);
+          
+      
+        }
+        
+      },
+      error=>console.error(error),
+    ) 
+    
   }
+
+
+
+
+
+
+
+
+
+
+
 }

@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
+import {CommonModule} from '@angular/common'
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
@@ -11,22 +11,34 @@ import { RegisterComponent } from './register/register.component';
 
 import {UserService} from './user.service';
 import { UserhomeComponent } from './userhome/userhome.component'
+import { CookieService } from 'ngx-cookie-service';
+import { AdminhomeComponent } from './adminhome/adminhome.component';
+import { OgrencilerComponent } from './ogrenciler/ogrenciler.component';
+import { BilgilerimComponent } from './bilgilerim/bilgilerim.component';
+import { OgrenciekleComponent } from './ogrenciekle/ogrenciekle.component';
+
+
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     RegisterComponent,
-    UserhomeComponent
+    UserhomeComponent,
+    AdminhomeComponent,
+    OgrencilerComponent,
+    BilgilerimComponent,
+    OgrenciekleComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    CommonModule
   ],
-  providers: [UserService],
+  providers: [UserService,CookieService,],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
