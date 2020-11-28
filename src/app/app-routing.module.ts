@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AdminhomeComponent } from './adminhome/adminhome.component';
+import { AdminnavbarComponent } from './adminnavbar/adminnavbar.component';
 import { AppComponent } from './app.component';
 import { BilgilerimComponent } from './bilgilerim/bilgilerim.component';
 import { LoginComponent } from './login/login.component';
@@ -18,7 +19,8 @@ const routes: Routes = [
   {path: "adminhome",component:AdminhomeComponent},
   {path: "ogrenciler", component:OgrencilerComponent},
   {path:"bilgilerim",component:BilgilerimComponent},
-  {path:"ogrenciekle",component:OgrenciekleComponent}
+  {path:"ogrenciekle",component:OgrenciekleComponent},
+  {path:"adminnavbar",component:AdminnavbarComponent}
 ];
 
 @NgModule({

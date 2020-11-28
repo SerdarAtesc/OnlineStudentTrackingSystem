@@ -51,19 +51,10 @@ export class LoginComponent implements OnInit {
 
   
         cookieobj.set("login-type",data["login_type"]);
-
-     
-
-        
-
         if(data["login_type"]==1)
         {
           cookieobj.set("login",JSON.stringify(data));
           this._router.navigate(['userhome']);
-          
-         
-
-
         }
         else if(data["login_type"]==2){
 

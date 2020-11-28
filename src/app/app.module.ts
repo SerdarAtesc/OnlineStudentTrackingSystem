@@ -16,6 +16,7 @@ import { AdminhomeComponent } from './adminhome/adminhome.component';
 import { OgrencilerComponent } from './ogrenciler/ogrenciler.component';
 import { BilgilerimComponent } from './bilgilerim/bilgilerim.component';
 import { OgrenciekleComponent } from './ogrenciekle/ogrenciekle.component';
+import { AdminnavbarComponent } from './adminnavbar/adminnavbar.component';
 
 
 
@@ -28,7 +29,8 @@ import { OgrenciekleComponent } from './ogrenciekle/ogrenciekle.component';
     AdminhomeComponent,
     OgrencilerComponent,
     BilgilerimComponent,
-    OgrenciekleComponent
+    OgrenciekleComponent,
+    AdminnavbarComponent
   ],
   imports: [
     BrowserModule,
