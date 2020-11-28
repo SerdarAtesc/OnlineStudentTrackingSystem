@@ -2,10 +2,10 @@
 -- version 4.9.1
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: Nov 28, 2020 at 05:37 PM
--- Server version: 8.0.17
--- PHP Version: 7.3.10
+-- Anamakine: localhost
+-- Üretim Zamanı: 28 Kas 2020, 18:16:33
+-- Sunucu sürümü: 8.0.17
+-- PHP Sürümü: 7.3.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -19,12 +19,12 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `osts`
+-- Veritabanı: `osts`
 --
 
 DELIMITER $$
 --
--- Procedures
+-- Yordamlar
 --
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_HOMEWORK_ASSIGN` (IN `_title` TEXT, IN `_detail` TEXT, IN `_assignerid` INT, IN `_lectureid` INT, IN `_studentid` INT)  BEGIN
 
@@ -83,7 +83,7 @@ SET _usertype=(SELECT login.login_type from login WHERE
               
        SELECT login.login_name,login.login_password,login.login_type,login.login_id,teachers.teacher_name,teachers.teacher_lastname,
        teachers.teacher_mail,teachers.teacher_phone,teachers.teacher_id
-       from login left JOIN teachers  on teachers.teacher_id=login.login_detail_id WHERE login.isActive=1 And ateachers.isActive=1 And login.login_name=_username AND
+       from login left JOIN teachers  on teachers.teacher_id=login.login_detail_id WHERE login.isActive=1 And teachers.isActive=1 And login.login_name=_username AND
        login.login_password=_password;
        
        END IF;      
@@ -112,6 +112,7 @@ BEGIN
 IF _class!=0 THEN
 
 SELECT 
+students.student_number,
 student_id,
 student_name,
 student_lastname,
@@ -128,6 +129,7 @@ AND students.student_class_id=_class;
 ELSE
 
 SELECT 
+students.student_number,
 student_id,
 student_name,
 student_lastname,
@@ -224,7 +226,7 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ateachers`
+-- Tablo için tablo yapısı `ateachers`
 --
 
 CREATE TABLE `ateachers` (
@@ -238,7 +240,7 @@ CREATE TABLE `ateachers` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `classes`
+-- Tablo için tablo yapısı `classes`
 --
 
 CREATE TABLE `classes` (
@@ -250,7 +252,7 @@ CREATE TABLE `classes` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Dumping data for table `classes`
+-- Tablo döküm verisi `classes`
 --
 
 INSERT INTO `classes` (`class_id`, `class_year`, `class_title`, `class_detail`, `isActive`) VALUES
@@ -266,7 +268,7 @@ INSERT INTO `classes` (`class_id`, `class_year`, `class_title`, `class_detail`, 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `homeworks`
+-- Tablo için tablo yapısı `homeworks`
 --
 
 CREATE TABLE `homeworks` (
@@ -282,7 +284,7 @@ CREATE TABLE `homeworks` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Dumping data for table `homeworks`
+-- Tablo döküm verisi `homeworks`
 --
 
 INSERT INTO `homeworks` (`homework_id`, `homework_title`, `homework_detail`, `homework_create_date`, `homework_assigner_id`, `homework_lecture_id`, `homework_student_id`, `homework_last_publish_date`, `isActive`) VALUES
@@ -292,7 +294,7 @@ INSERT INTO `homeworks` (`homework_id`, `homework_title`, `homework_detail`, `ho
 -- --------------------------------------------------------
 
 --
--- Table structure for table `homework_publishs`
+-- Tablo için tablo yapısı `homework_publishs`
 --
 
 CREATE TABLE `homework_publishs` (
@@ -308,7 +310,7 @@ CREATE TABLE `homework_publishs` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `lectures`
+-- Tablo için tablo yapısı `lectures`
 --
 
 CREATE TABLE `lectures` (
@@ -320,7 +322,7 @@ CREATE TABLE `lectures` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Dumping data for table `lectures`
+-- Tablo döküm verisi `lectures`
 --
 
 INSERT INTO `lectures` (`lecture_id`, `lecture_year`, `lecture_title`, `lecture_detail`, `isActive`) VALUES
@@ -331,7 +333,7 @@ INSERT INTO `lectures` (`lecture_id`, `lecture_year`, `lecture_title`, `lecture_
 -- --------------------------------------------------------
 
 --
--- Table structure for table `lecture_teachers`
+-- Tablo için tablo yapısı `lecture_teachers`
 --
 
 CREATE TABLE `lecture_teachers` (
@@ -344,7 +346,7 @@ CREATE TABLE `lecture_teachers` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `login`
+-- Tablo için tablo yapısı `login`
 --
 
 CREATE TABLE `login` (
@@ -357,19 +359,21 @@ CREATE TABLE `login` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Dumping data for table `login`
+-- Tablo döküm verisi `login`
 --
 
 INSERT INTO `login` (`login_id`, `login_name`, `login_password`, `login_detail_id`, `login_type`, `isActive`) VALUES
 (1, 'kullanici_adi', 'sifre', 1, 1, 1),
 (2, 'ahmet_bey', 'ahmet123', 1, 2, 1),
 (3, 'hakann', 'hakan123', 2, 2, 1),
-(4, 'name', 'pass', 2, 1, 1);
+(4, 'name', 'pass', 2, 1, 1),
+(5, 'serdar', '123', 3, 1, 1),
+(6, 'serdar2', 'serdar', 1, 2, 1);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `students`
+-- Tablo için tablo yapısı `students`
 --
 
 CREATE TABLE `students` (
@@ -384,17 +388,18 @@ CREATE TABLE `students` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Dumping data for table `students`
+-- Tablo döküm verisi `students`
 --
 
 INSERT INTO `students` (`student_id`, `student_number`, `student_name`, `student_lastname`, `student_mail`, `student_phone`, `student_class_id`, `isActive`) VALUES
 (1, '62244414', 'Test', 'Test', 'test@mail.com', '5312456123', 1, 1),
-(2, '55181667', 'Ze', 'Te', 'zeze@mail.com', '123456', 4, 1);
+(2, '55181667', 'Ze', 'Te', 'zeze@mail.com', '123456', 4, 1),
+(3, '32434233', 'serdar', 'ates', 'serdar@gmail.com', '534534534', 1, 1);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `teachers`
+-- Tablo için tablo yapısı `teachers`
 --
 
 CREATE TABLE `teachers` (
@@ -408,7 +413,7 @@ CREATE TABLE `teachers` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Dumping data for table `teachers`
+-- Tablo döküm verisi `teachers`
 --
 
 INSERT INTO `teachers` (`teacher_id`, `teacher_name`, `teacher_lastname`, `teacher_mail`, `teacher_phone`, `teacher_detail`, `isActive`) VALUES
@@ -418,8 +423,8 @@ INSERT INTO `teachers` (`teacher_id`, `teacher_name`, `teacher_lastname`, `teach
 -- --------------------------------------------------------
 
 --
--- Stand-in structure for view `view_all_students`
--- (See below for the actual view)
+-- Görünüm yapısı durumu `view_all_students`
+-- (Asıl görünüm için aşağıya bakın)
 --
 CREATE TABLE `view_all_students` (
 `login_name` varchar(50)
@@ -435,126 +440,126 @@ CREATE TABLE `view_all_students` (
 -- --------------------------------------------------------
 
 --
--- Structure for view `view_all_students`
+-- Görünüm yapısı `view_all_students`
 --
 DROP TABLE IF EXISTS `view_all_students`;
 
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `view_all_students`  AS  select `students`.`student_id` AS `student_id`,`students`.`student_name` AS `student_name`,`students`.`student_lastname` AS `student_lastname`,`students`.`student_mail` AS `student_mail`,`students`.`student_phone` AS `student_phone`,`students`.`student_class_id` AS `student_class_id`,`login`.`login_name` AS `login_name`,`login`.`login_password` AS `login_password` from (`students` left join `login` on((`students`.`student_id` = `login`.`login_detail_id`))) where (`login`.`login_type` = 3) ;
 
 --
--- Indexes for dumped tables
+-- Dökümü yapılmış tablolar için indeksler
 --
 
 --
--- Indexes for table `ateachers`
+-- Tablo için indeksler `ateachers`
 --
 ALTER TABLE `ateachers`
   ADD PRIMARY KEY (`ateacher_id`);
 
 --
--- Indexes for table `classes`
+-- Tablo için indeksler `classes`
 --
 ALTER TABLE `classes`
   ADD PRIMARY KEY (`class_id`);
 
 --
--- Indexes for table `homeworks`
+-- Tablo için indeksler `homeworks`
 --
 ALTER TABLE `homeworks`
   ADD PRIMARY KEY (`homework_id`);
 
 --
--- Indexes for table `homework_publishs`
+-- Tablo için indeksler `homework_publishs`
 --
 ALTER TABLE `homework_publishs`
   ADD PRIMARY KEY (`publish_id`);
 
 --
--- Indexes for table `lectures`
+-- Tablo için indeksler `lectures`
 --
 ALTER TABLE `lectures`
   ADD PRIMARY KEY (`lecture_id`);
 
 --
--- Indexes for table `lecture_teachers`
+-- Tablo için indeksler `lecture_teachers`
 --
 ALTER TABLE `lecture_teachers`
   ADD PRIMARY KEY (`lecture_teacher_id`);
 
 --
--- Indexes for table `login`
+-- Tablo için indeksler `login`
 --
 ALTER TABLE `login`
   ADD PRIMARY KEY (`login_id`),
   ADD UNIQUE KEY `login_name` (`login_name`);
 
 --
--- Indexes for table `students`
+-- Tablo için indeksler `students`
 --
 ALTER TABLE `students`
   ADD PRIMARY KEY (`student_id`),
   ADD UNIQUE KEY `student_number` (`student_number`);
 
 --
--- Indexes for table `teachers`
+-- Tablo için indeksler `teachers`
 --
 ALTER TABLE `teachers`
   ADD PRIMARY KEY (`teacher_id`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- Dökümü yapılmış tablolar için AUTO_INCREMENT değeri
 --
 
 --
--- AUTO_INCREMENT for table `ateachers`
+-- Tablo için AUTO_INCREMENT değeri `ateachers`
 --
 ALTER TABLE `ateachers`
   MODIFY `ateacher_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `classes`
+-- Tablo için AUTO_INCREMENT değeri `classes`
 --
 ALTER TABLE `classes`
   MODIFY `class_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
--- AUTO_INCREMENT for table `homeworks`
+-- Tablo için AUTO_INCREMENT değeri `homeworks`
 --
 ALTER TABLE `homeworks`
   MODIFY `homework_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT for table `homework_publishs`
+-- Tablo için AUTO_INCREMENT değeri `homework_publishs`
 --
 ALTER TABLE `homework_publishs`
   MODIFY `publish_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `lectures`
+-- Tablo için AUTO_INCREMENT değeri `lectures`
 --
 ALTER TABLE `lectures`
   MODIFY `lecture_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT for table `lecture_teachers`
+-- Tablo için AUTO_INCREMENT değeri `lecture_teachers`
 --
 ALTER TABLE `lecture_teachers`
   MODIFY `lecture_teacher_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `login`
+-- Tablo için AUTO_INCREMENT değeri `login`
 --
 ALTER TABLE `login`
-  MODIFY `login_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `login_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
--- AUTO_INCREMENT for table `students`
+-- Tablo için AUTO_INCREMENT değeri `students`
 --
 ALTER TABLE `students`
-  MODIFY `student_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `student_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT for table `teachers`
+-- Tablo için AUTO_INCREMENT değeri `teachers`
 --
 ALTER TABLE `teachers`
   MODIFY `teacher_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
