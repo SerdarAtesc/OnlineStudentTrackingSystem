@@ -10,14 +10,15 @@
 <br><br><br>
 <div class="container">
     <div class="card bg-light">
-        <form>
+        <form [formGroup]="odevekleForm">
             <div class="form-group">
                 <label for="exampleFormControlInput1">Homework Title</label>
-              <input type="text" class="form-control"  placeholder="Homework Title">
+              <input type="text" class="form-control"  placeholder="Homework Title" formControlName="title">
             </div>
             <div class="form-group">
               <label for="exampleFormControlSelect1">Lecture select</label>
-              <select class="form-control" id="exampleFormControlSelect1">
+              <select class="form-control" id="exampleFormControlSelect1" formControlName="lectureid" >
+                <option [ngValue]="null" disabled>Choose your profile</option>
                 <option>1</option>
                 <option>2</option>
                 <option>3</option>
@@ -27,18 +28,33 @@
             </div>
             <div class="form-group">
               <label for="exampleFormControlSelect2">Student multiple select</label>
-              <select multiple class="form-control" id="exampleFormControlSelect2">
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
+              <br>
+              <select formControlName="studentid">
+                <option [ngValue]="null" disabled>Choose your profile</option>
+                <option *ngFor="let student of students" [ngValue]="student.student_id">
+                     {{student.student_name}}
+                 </option>
+
               </select>
+
+  
+
             </div>
             <div class="form-group">
               <label for="exampleFormControlTextarea1">Homework Detail</label>
-              <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+              <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"  formControlName="detail"           ></textarea>
             </div>
+            <!-- <div class="form-group">
+                <label for="exampleFormControlTextarea1">Öğretmen id</label>
+                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"  formControlName="assignerid"           ></textarea>
+              </div> -->
+           
+          
+
+            <div class="form-group text-center">
+                <button type="submit" class="btn-success text-center"   (click)="odevekle()"      > Ekle</button>
+            </div>
+           
           </form>
 </div>
 

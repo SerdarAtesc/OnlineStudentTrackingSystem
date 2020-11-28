@@ -48,6 +48,29 @@ export class UserService {
     }
   }
 
+  async odevekle(postdata: any){
+    const response = await fetch('http://localhost:3000/homework/Add', {
+      method: 'POST',
+      body: JSON.stringify(postdata),
+      headers: {'Content-Type': 'application/json; charset=UTF-8'} });
+
+    if (!response.ok) { /* Handle */ }
+    if (response.body !== null) {
+
+      console.log(response);
+
+      const promise = new Promise((resolve, reject) => {
+        resolve(123);
+      });
+      promise.then((res) => {
+        console.log('I get called:', res === 123); // I get called: true
+      });
+      promise.catch((err) => {
+        // This is never called
+      });
+    }
+  }
+
 
 
 

@@ -30,12 +30,14 @@ router.post('/Add', function (req, res, next) {
   var sqlQuerry = 'CALL SP_HOMEWORK_ASSIGN(?,?,?,?,?)';
   db.query(sqlQuerry, querryParams, function (err, results) {
     if (err) {
+      console.log(err.message);
       res.json("database error")
       return;
     }
     try {
       if (results["0"].length>0) {
         res.json(true);
+
         return;
       } else {
         res.json(0);

@@ -12,7 +12,7 @@ import { Component, OnInit } from '@angular/core';
 
 export class OgrencilerComponent implements OnInit {
 
-  totalAngularPackages='';
+  students='';
     
 
   constructor(private http:HttpClient) {
@@ -25,8 +25,8 @@ export class OgrencilerComponent implements OnInit {
 
    ngOnInit() {
     this.http.get<any>('http://localhost:3000/student/List/0').subscribe(data => {
-        this.totalAngularPackages = data;
-        console.log(this.totalAngularPackages);
+        this.students = data;
+        console.log(this.students);
     })        
 }
 
