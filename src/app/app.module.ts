@@ -18,6 +18,7 @@ import { BilgilerimComponent } from './bilgilerim/bilgilerim.component';
 import { OgrenciekleComponent } from './ogrenciekle/ogrenciekle.component';
 import { AdminnavbarComponent } from './adminnavbar/adminnavbar.component';
 import { UsernavbarComponent } from './usernavbar/usernavbar.component';
+import { OdevekleComponent } from './odevekle/odevekle.component';
 
 
 
@@ -32,7 +33,8 @@ import { UsernavbarComponent } from './usernavbar/usernavbar.component';
     BilgilerimComponent,
     OgrenciekleComponent,
     AdminnavbarComponent,
-    UsernavbarComponent
+    UsernavbarComponent,
+    OdevekleComponent
   ],
   imports: [
     BrowserModule,

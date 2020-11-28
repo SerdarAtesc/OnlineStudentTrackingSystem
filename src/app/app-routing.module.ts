@@ -5,6 +5,7 @@ import { AdminnavbarComponent } from './adminnavbar/adminnavbar.component';
 import { AppComponent } from './app.component';
 import { BilgilerimComponent } from './bilgilerim/bilgilerim.component';
 import { LoginComponent } from './login/login.component';
+import { OdevekleComponent } from './odevekle/odevekle.component';
 import { OgrenciekleComponent } from './ogrenciekle/ogrenciekle.component';
 import { OgrencilerComponent } from './ogrenciler/ogrenciler.component';
 import { RegisterComponent } from './register/register.component';
@@ -22,7 +23,8 @@ const routes: Routes = [
   {path:"bilgilerim",component:BilgilerimComponent},
   {path:"ogrenciekle",component:OgrenciekleComponent},
   {path:"adminnavbar",component:AdminnavbarComponent},
-  {path:"usernavbar",component:UsernavbarComponent}
+  {path:"usernavbar",component:UsernavbarComponent},
+  {path:"odevekle",component:OdevekleComponent}
 ];
 
 @NgModule({
