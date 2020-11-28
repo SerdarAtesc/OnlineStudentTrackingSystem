@@ -8,11 +8,8 @@ import { CookieService } from 'ngx-cookie-service';
 })
 export class BilgilerimComponent implements OnInit {
 
-  student ={};
-  constructor(private cookie:CookieService) {
 
-    const allCookies: {} = cookie.getAll();
-    this.student = JSON.parse(cookie.get("login"));
+  constructor(private cookie:CookieService) {
 
    }
 

@@ -9,6 +9,7 @@ import { OgrenciekleComponent } from './ogrenciekle/ogrenciekle.component';
 import { OgrencilerComponent } from './ogrenciler/ogrenciler.component';
 import { RegisterComponent } from './register/register.component';
 import { UserhomeComponent } from './userhome/userhome.component';
+import { UsernavbarComponent } from './usernavbar/usernavbar.component';
 
 const routes: Routes = [
   {path:'',redirectTo:'login',pathMatch:'full'},
@@ -20,7 +21,8 @@ const routes: Routes = [
   {path: "ogrenciler", component:OgrencilerComponent},
   {path:"bilgilerim",component:BilgilerimComponent},
   {path:"ogrenciekle",component:OgrenciekleComponent},
-  {path:"adminnavbar",component:AdminnavbarComponent}
+  {path:"adminnavbar",component:AdminnavbarComponent},
+  {path:"usernavbar",component:UsernavbarComponent}
 ];
 
 @NgModule({

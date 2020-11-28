@@ -12,7 +12,11 @@ export class UserhomeComponent implements OnInit {
 
   username = '';
   cookie: any;
+
+  
   constructor(private _user:UserService, private _router:Router,cookie:CookieService) { 
+
+
     const allCookies: {} = cookie.getAll();
     this.username=cookie.get('student_name');
   }
