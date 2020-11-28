@@ -57,19 +57,25 @@ export class UserService {
     if (!response.ok) { /* Handle */ }
     if (response.body !== null) {
 
-      console.log(response);
+      //console.log(response);
 
       const promise = new Promise((resolve, reject) => {
         resolve(123);
       });
       promise.then((res) => {
-        console.log('I get called:', res === 123); // I get called: true
+        //console.log('I get called:', res === 123); // I get called: true
       });
       promise.catch((err) => {
         // This is never called
       });
     }
   }
+  deleteHomeWork(id){
+    return this._http.delete('http://localhost:3000/homework/Delete/'+ id);
+  }
+
+
+    
 
 
 

@@ -75,4 +75,78 @@ router.delete('/Delete/:id',function (req,res,next) {
 
 });
 
+router.post('/Publish', function (req, res, next) {
+  var postParams = req.body;
+  var querryParams = [
+    postParams.homeworkid,
+    postParams.publisherid,
+    postParams.detailid,
+    0,
+    ""]
+
+  var sqlQuerry = 'CALL SP_HOMEWORK_PUBLISH(?,?,?,?,?)';
+  db.query(sqlQuerry, querryParams, function (err, results) {
+    if (err) {
+      res.json("database error")
+      return;
+    }
+    try {
+      if (results["0"].length>0) {
+        res.json(true);
+        return;
+      } else {
+        res.json(0);
+        return;
+      }
+    } catch (ex) {
+      res.json(-1);
+      return;
+    }
+  });
+
+});
+
+
+router.get('/studentHomeworkList/:studentid', function (req, res, next) {
+  var getParams = req.params.studentid;
+  var sqlQuerry = 'CALL SP_STUDENT_HOMEWORK_LIST(?)';
+  db.query(sqlQuerry, getParams, function (err, results) {
+    try {
+      res.json(results[0]);
+      console.log("homework has sent");
+      return;
+    } catch (ex) {
+      res.json(-1);
+      return;
+    }
+  });
+
+});
+
+
+router.get('/teacherHomeworkList/:teacherid', function (req, res, next) {
+  var getParams = req.params.teacherid;
+  var sqlQuerry = 'CALL SP_TEACHER_HOMEWORK_LIST(?)';
+ 
+  db.query(sqlQuerry, getParams, function (err, results) {
+    try {
+    
+      res.json(results[0]);
+      console.log('homeworks has sent');
+      return;
+    } catch (ex) {
+      
+      res.json(-1);
+      return;
+    }
+  });
+
+});
+
+
+
+
+
+
+
 module.exports = router;

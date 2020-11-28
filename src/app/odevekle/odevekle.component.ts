@@ -27,7 +27,7 @@ export class OdevekleComponent implements OnInit {
     this.teacher = JSON.parse(cookie.get("login"));
 
     this.teacher_id = this.teacher["teacher_id"];
-    console.log(this.teacher_id);
+    //console.log(this.teacher_id);
     
    }
 
@@ -44,7 +44,7 @@ export class OdevekleComponent implements OnInit {
     this.odevekleForm.controls['assignerid'].setValue(this.teacher_id);
     this.http.get<any>('http://localhost:3000/student/List/0').subscribe(data => {
         this.students = data;
-        console.log(this.students);
+       // console.log(this.students);
     })        
 }
 

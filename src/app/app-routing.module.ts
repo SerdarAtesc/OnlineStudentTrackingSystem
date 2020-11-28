@@ -6,6 +6,8 @@ import { AppComponent } from './app.component';
 import { BilgilerimComponent } from './bilgilerim/bilgilerim.component';
 import { LoginComponent } from './login/login.component';
 import { OdevekleComponent } from './odevekle/odevekle.component';
+import { OdevlerimComponent } from './odevlerim/odevlerim.component';
+import { OdevlistComponent } from './odevlist/odevlist.component';
 import { OgrenciekleComponent } from './ogrenciekle/ogrenciekle.component';
 import { OgrencilerComponent } from './ogrenciler/ogrenciler.component';
 import { RegisterComponent } from './register/register.component';
@@ -24,7 +26,9 @@ const routes: Routes = [
   {path:"ogrenciekle",component:OgrenciekleComponent},
   {path:"adminnavbar",component:AdminnavbarComponent},
   {path:"usernavbar",component:UsernavbarComponent},
-  {path:"odevekle",component:OdevekleComponent}
+  {path:"odevekle",component:OdevekleComponent},
+  {path:"odevlerim",component:OdevlerimComponent},
+  {path:"odevlist",component:OdevlistComponent}
 ];
 
 @NgModule({
