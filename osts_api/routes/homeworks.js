@@ -80,7 +80,7 @@ router.post('/Publish', function (req, res, next) {
   var querryParams = [
     postParams.homeworkid,
     postParams.publisherid,
-    postParams.detailid,
+    postParams.detail,
     0,
     ""]
 
@@ -144,7 +144,21 @@ router.get('/teacherHomeworkList/:teacherid', function (req, res, next) {
 });
 
 
+router.get('/Publishs/:teacherid', function (req, res, next) {
+  var getParams = req.params.teacherid;
+  var sqlQuerry = 'CALL SP_TEACHER_PUBLISH_SHOW(?)';
+  db.query(sqlQuerry, getParams, function (err, results) {
+    try {
+      res.json(results[0]);
+      console.log("Publish has sent");
+      return;
+    } catch (ex) {
+      res.json(-1);
+      return;
+    }
+  });
 
+});
 
 
 

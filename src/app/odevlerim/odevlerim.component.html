@@ -40,9 +40,11 @@
                 {{item.teacher_name}}    {{item.teacher_lastname}}  
             </td>
             <td>
-                <button class="btn-success">Teslim Et</button>
+                <button class="btn-success"  type="submit" (click)="teslimet(item.homework_id)">Teslim Et</button>
             </td>
         
       </tr>
     </tbody>
   </table> 
+
+

@@ -16,7 +16,7 @@ export class UsernavbarComponent implements OnInit {
 
     const allCookies: {} = cookie.getAll();
     this.student = JSON.parse(cookie.get("login"));
-    console.log(this.student);
+    //console.log(this.student);
     this.username=this.student["student_name"] + "  "     + this.student["student_lastname"];
 
   }
@@ -25,8 +25,6 @@ export class UsernavbarComponent implements OnInit {
   deletecookies(){
     this.cookie.deleteAll();
   }
-
-
   ngOnInit(): void {
   }
 

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CookieService } from 'ngx-cookie-service';
+import { RouteConfigLoadEnd, Router } from '@angular/router';
 @Component({
   selector: 'app-odevlerim',
   templateUrl: './odevlerim.component.html',
@@ -9,7 +10,7 @@ import { CookieService } from 'ngx-cookie-service';
 export class OdevlerimComponent implements OnInit {
 studentsc={};
 student_id='';
-  constructor(private http:HttpClient,private cookie:CookieService)
+  constructor(private http:HttpClient,private cookie:CookieService,private route:Router)
   {
 
     this.studentsc = JSON.parse(cookie.get("login"));
@@ -26,6 +27,12 @@ student_id='';
         this.students = data;
         console.log(data);
     })        
+}
+
+
+teslimet(odev_id){
+
+  this.route.navigate(['odevteslim'], { queryParams: { id: odev_id } });
 }
 
 }

@@ -16,7 +16,7 @@ export class AdminnavbarComponent implements OnInit {
 
     const allCookies: {} = cookie.getAll();
     this.teacher = JSON.parse(cookie.get("login"));
-    console.log(this.teacher);
+    //console.log(this.teacher);
     this.teacher_name=this.teacher["teacher_name"] + "  "     + this.teacher["teacher_lastname"];
 
 

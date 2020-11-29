@@ -8,8 +8,10 @@ import { LoginComponent } from './login/login.component';
 import { OdevekleComponent } from './odevekle/odevekle.component';
 import { OdevlerimComponent } from './odevlerim/odevlerim.component';
 import { OdevlistComponent } from './odevlist/odevlist.component';
+import { OdevteslimComponent } from './odevteslim/odevteslim.component';
 import { OgrenciekleComponent } from './ogrenciekle/ogrenciekle.component';
 import { OgrencilerComponent } from './ogrenciler/ogrenciler.component';
+import { PublishsComponent } from './publishs/publishs.component';
 import { RegisterComponent } from './register/register.component';
 import { UserhomeComponent } from './userhome/userhome.component';
 import { UsernavbarComponent } from './usernavbar/usernavbar.component';
@@ -28,7 +30,9 @@ const routes: Routes = [
   {path:"usernavbar",component:UsernavbarComponent},
   {path:"odevekle",component:OdevekleComponent},
   {path:"odevlerim",component:OdevlerimComponent},
-  {path:"odevlist",component:OdevlistComponent}
+  {path:"odevlist",component:OdevlistComponent},
+  {path:"odevteslim",component:OdevteslimComponent},
+  {path:"publishs",component:PublishsComponent}
 ];
 
 @NgModule({

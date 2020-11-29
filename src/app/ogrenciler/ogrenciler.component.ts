@@ -26,7 +26,7 @@ export class OgrencilerComponent implements OnInit {
    ngOnInit() {
     this.http.get<any>('http://localhost:3000/student/List/0').subscribe(data => {
         this.students = data;
-        console.log(this.students);
+       // console.log(this.students);
     })        
 }
 

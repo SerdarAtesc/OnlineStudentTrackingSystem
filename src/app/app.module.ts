@@ -21,6 +21,8 @@ import { UsernavbarComponent } from './usernavbar/usernavbar.component';
 import { OdevekleComponent } from './odevekle/odevekle.component';
 import { OdevlerimComponent } from './odevlerim/odevlerim.component';
 import { OdevlistComponent } from './odevlist/odevlist.component';
+import { OdevteslimComponent } from './odevteslim/odevteslim.component';
+import { PublishsComponent } from './publishs/publishs.component';
 
 
 
@@ -38,7 +40,9 @@ import { OdevlistComponent } from './odevlist/odevlist.component';
     UsernavbarComponent,
     OdevekleComponent,
     OdevlerimComponent,
-    OdevlistComponent
+    OdevlistComponent,
+    OdevteslimComponent,
+    PublishsComponent
   ],
   imports: [
     BrowserModule,

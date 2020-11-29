@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Anamakine: localhost
--- Üretim Zamanı: 28 Kas 2020, 23:11:07
+-- Üretim Zamanı: 29 Kas 2020, 21:48:29
 -- Sunucu sürümü: 8.0.17
 -- PHP Sürümü: 7.3.10
 
@@ -53,6 +53,7 @@ INSERT INTO homework_publishs(homework_publishs.homework_id,
                              (_id,_senderid,_detail,_hasfile,_path
 
                              );
+                             UPDATE homeworks set homeworks.isActive = 0 WHERE homeworks.homework_id = _id;
 SELECT * FROM homework_publishs WHERE homework_publishs.publish_id=LAST_INSERT_ID();
 END$$
 
@@ -85,7 +86,7 @@ SET _usertype=(SELECT login.login_type from login WHERE
        IF _usertype=1 THEN
               
        SELECT  login.login_id,login.login_name,login.login_password, students.student_id,
-       login.login_type,students.student_number,students.student_name,students.student_lastname,students.student_mail,students.student_class_id,classes.class_title from login 
+       login.login_type,students.student_number,students.student_name,students.student_lastname,students.student_mail,students.student_phone,students.student_class_id,classes.class_title from login 
        LEFT JOIN students on students.student_id=login.login_detail_id
        LEFT JOIN classes on students.student_class_id=classes.class_id  
        WHERE login.login_name=_username AND login.login_password=_password;
@@ -218,7 +219,7 @@ END$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_STUDENT_HOMEWORK_LIST` (IN `_id` INT)  BEGIN
 
 SELECT homeworks.homework_title,
-
+homeworks.homework_id,
 homeworks.homework_detail,
 DATE_FORMAT(homeworks.homework_create_date, '%d %M %Y %H %i') as 'create_date',
 DATE_FORMAT(homeworks.homework_last_publish_date, '%d %M %Y %H %i') as 'last_date',
@@ -232,14 +233,13 @@ WHERE homeworks.isActive=1 AND homeworks.homework_student_id=_id AND homeworks.h
 
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_STUDENT_UPDATE` (IN `_id` INT, IN `_username` TEXT, IN `_password` TEXT, IN `_mail` TEXT, IN `_phone` TEXT, IN `_classid` INT)  MODIFIES SQL DATA
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_STUDENT_UPDATE` (IN `_id` INT, IN `_username` TEXT, IN `_password` TEXT, IN `_mail` TEXT, IN `_phone` TEXT)  MODIFIES SQL DATA
 BEGIN
 
 UPDATE students SET 
 
 students.student_mail=_mail,
-students.student_phone=_phone,
-students.student_class_id=_classid WHERE students.student_id=_id;
+students.student_phone=_phone WHERE students.student_id=_id;
 
 
 UPDATE login SET 
@@ -267,6 +267,25 @@ LEFT JOIN lectures on lectures.lecture_id=homeworks.homework_lecture_id
 LEFT JOIN students on students.student_id=homeworks.homework_student_id
 WHERE homeworks.isActive=1 AND homeworks.homework_assigner_id=_id;
 
+
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_TEACHER_PUBLISH_SHOW` (IN `_id` INT)  READS SQL DATA
+BEGIN
+SELECT 
+students.student_name,
+students.student_lastname,
+students.student_number,
+homeworks.homework_detail,
+homeworks.homework_title,
+homework_publishs.publisher_text,
+DATE_FORMAT(homework_publishs.publish_date, '%d %M %Y %H:%i') as 'publish_date',
+DATE_FORMAT(homeworks.homework_last_publish_date, '%d %M %Y %H:%i') as 'last_date'
+FROM homework_publishs 
+LEFT JOIN students ON students.student_id = homework_publishs.publisher_id
+LEFT JOIN homeworks ON homeworks.homework_id = homework_publishs.homework_id
+WHERE homeworks.homework_assigner_id = _id;
 
 
 END$$
@@ -340,7 +359,7 @@ CREATE TABLE `homeworks` (
 INSERT INTO `homeworks` (`homework_id`, `homework_title`, `homework_detail`, `homework_create_date`, `homework_assigner_id`, `homework_lecture_id`, `homework_student_id`, `homework_last_publish_date`, `isActive`) VALUES
 (1, 'Ödev başlığı', 'Ödev deneme ', '2020-11-23 23:07:31', 1, 1, 1, '0000-00-00 00:00:00', 0),
 (2, 'Test', 'detay', '2020-11-23 23:10:10', 1, 1, 1, '2020-11-30 23:10:10', 1),
-(3, 'asdas', 'asdasd', '2020-11-28 23:48:26', 1, 1, 3, '2020-12-05 23:48:26', 1),
+(3, 'asdas', 'asdasd', '2020-11-28 23:48:26', 1, 1, 3, '2020-12-05 23:48:26', 0),
 (4, 'yeni', 'dsfsdfs', '2020-11-28 23:49:48', 1, 1, 3, '2020-12-05 23:49:48', 1);
 
 -- --------------------------------------------------------
@@ -358,6 +377,13 @@ CREATE TABLE `homework_publishs` (
   `file_path` varchar(75) NOT NULL,
   `publish_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Tablo döküm verisi `homework_publishs`
+--
+
+INSERT INTO `homework_publishs` (`publish_id`, `homework_id`, `publisher_id`, `publisher_text`, `has_file`, `file_path`, `publish_date`) VALUES
+(1, 3, 3, 'hocam yaptım', 0, '', '2020-11-30 00:01:22');
 
 -- --------------------------------------------------------
 
@@ -447,7 +473,7 @@ CREATE TABLE `students` (
 INSERT INTO `students` (`student_id`, `student_number`, `student_name`, `student_lastname`, `student_mail`, `student_phone`, `student_class_id`, `isActive`) VALUES
 (1, '62244414', 'Test', 'Test', 'test@mail.com', '5312456123', 1, 1),
 (2, '55181667', 'Ze', 'Te', 'zeze@mail.com', '123456', 4, 1),
-(3, '32434233', 'serdar', 'ates', 'serdar@gmail.com', '534534534', 1, 1),
+(3, '32434233', 'serdar', 'ates', 'serdardfgdfg@gmail.com', '789456', 1, 1),
 (5, '1966091', 'serdar', 'ates', 'sdfsdf', '43534534', 1, 1);
 
 -- --------------------------------------------------------
@@ -586,7 +612,7 @@ ALTER TABLE `homeworks`
 -- Tablo için AUTO_INCREMENT değeri `homework_publishs`
 --
 ALTER TABLE `homework_publishs`
-  MODIFY `publish_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `publish_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `lectures`

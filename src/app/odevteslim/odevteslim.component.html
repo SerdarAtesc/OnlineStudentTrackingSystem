@@ -1,0 +1,11 @@
+<app-usernavbar></app-usernavbar>
+
+<div class="container">
+    <form [formGroup]="teslimetForm">
+<h2>Ödev Açıklaması</h2>
+<textarea cols="100" rows="5"  formControlName="detail" class="form-control"   >      </textarea>             <br><br>
+<button type="submit" (click)="teslimet()" class="btn-success">Teslim Et</button>
+
+</form>
+
+</div>

@@ -62,11 +62,10 @@ router.post('/Update', function (req, res, next) {
     postParams.username, // giriş adı
     postParams.password, // giriş şifresi
     postParams.mail,
-    postParams.phone,
-    postParams.class,//1 2 3 4 5 6 7 8
+    postParams.phone
   ]
 
-  var sqlQuerry = 'CALL SP_STUDENT_UPDATE(?,?,?,?,?,?)';
+  var sqlQuerry = 'CALL SP_STUDENT_UPDATE(?,?,?,?,?)';
   db.query(sqlQuerry, querryParams, function (err, results) {
     if (err) {
       res.json("database error")

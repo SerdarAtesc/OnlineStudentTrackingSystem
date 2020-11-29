@@ -1,2 +1,39 @@
 <app-usernavbar></app-usernavbar>
-<p>bilgilerim works!</p>
+
+<form [formGroup]="studentsUpdateForm">
+<div class="container rounded bg-white mt-5">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="p-3 py-5">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div class="d-flex flex-row align-items-center back"><i class="fa fa-long-arrow-left mr-1 mb-1"></i>
+                        <h6>Back to home</h6>
+                    </div>
+                    <h6 class="text-right">Edit Profile</h6>
+                </div>
+                <div class="row mt-2">
+
+                    <div class="col-md-6 mb-2">
+                      
+                        <input type="text" class="form-control" placeholder="first name" value="{{student_name}}" disabled>
+                    </div>
+                    
+                    <div class="col-md-6 mb-2"><input type="text" class="form-control" value="{{student_lastname}}" disabled></div>
+                
+                
+                    <div class="col-md-6 mb-2"><input type="text" class="form-control" placeholder="Email" value="{{student_mail}}" formControlName="mail" ></div>
+                    <div class="col-md-6 mb-2"><input type="text" class="form-control" value="{{student_number}}"disabled ></div>
+               
+                
+                    <div class="col-md-6 mb-2"><input type="text" class="form-control" placeholder="address" value="{{student_class_id}}"disabled  ></div>
+                    <div class="col-md-6 mb-2"><input type="text" class="form-control" value="{{student_phone}}"  formControlName="phone" ></div>
+               
+                
+                    <div class="col-md-6 mb-2"><input type="text" class="form-control" placeholder="address" value="{{login_name}}" formControlName="username" ></div>
+                    <div class="col-md-6 mb-2"><input type="text" class="form-control" value="{{login_password}}"  formControlName="password" ></div>
+                </div>
+                <div class="mt-5 text-right"><button       class="btn btn-primary profile-button" (click)="update()" type="button">Bilgileri Kaydet</button></div>
+            </div>
+        </div>
+    </div>
+</div></form>
