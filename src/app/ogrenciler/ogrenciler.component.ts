@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { UserService } from '../user.service';
 
 @Component({
   selector: 'app-ogrenciler',
@@ -15,7 +16,7 @@ export class OgrencilerComponent implements OnInit {
   students='';
     
 
-  constructor(private http:HttpClient) {
+  constructor(private http:HttpClient,private _user:UserService) {
 
       
 
@@ -28,6 +29,14 @@ export class OgrencilerComponent implements OnInit {
         this.students = data;
        // console.log(this.students);
     })        
+}
+studentDelete(homework_id){
+  this._user.deleteStudent(homework_id)
+      .subscribe(response => {
+        console.log(response)
+      
+      });
+      
 }
 
 

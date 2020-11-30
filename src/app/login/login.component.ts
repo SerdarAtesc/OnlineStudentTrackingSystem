@@ -28,6 +28,7 @@ export class LoginComponent implements OnInit {
   constructor(private _router:Router, private _user:UserService, private cookie: CookieService) {  }
 
   ngOnInit(): void {
+   
   
   }
   moveToRegister(){
@@ -60,8 +61,9 @@ export class LoginComponent implements OnInit {
 
           cookieobj.set("login",JSON.stringify(data));
           this._router.navigate(['adminhome']);
-          
-      
+        }
+        else{
+          alert("Bilgileriniz Hatalı")
         }
         
       },

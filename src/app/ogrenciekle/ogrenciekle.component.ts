@@ -30,7 +30,9 @@ export class OgrenciekleComponent implements OnInit {
       console.log('Invalid');
       return ;
     }
+    
     this._user.ogrenciekle(this.ogrenciekleForm.value)
+    this._router.navigate(["ogrenciler"]);
 
 
     

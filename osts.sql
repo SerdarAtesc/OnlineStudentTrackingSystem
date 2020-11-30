@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Anamakine: localhost
--- Üretim Zamanı: 29 Kas 2020, 21:48:29
+-- Üretim Zamanı: 30 Kas 2020, 22:38:53
 -- Sunucu sürümü: 8.0.17
 -- PHP Sürümü: 7.3.10
 
@@ -208,7 +208,7 @@ END$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_STUDENT_DELETE` (IN `_id` INT)  MODIFIES SQL DATA
 BEGIN
 
-UPDATE students SET students.isActive=0 WHERE students.isActive=0 AND students.student_id=_id;
+UPDATE students SET students.isActive=0 WHERE students.student_id=_id;
 UPDATE login SET login.isActive=0 WHERE 
 
 login.login_detail_id=_id AND login.login_type=1;
@@ -360,7 +360,9 @@ INSERT INTO `homeworks` (`homework_id`, `homework_title`, `homework_detail`, `ho
 (1, 'Ödev başlığı', 'Ödev deneme ', '2020-11-23 23:07:31', 1, 1, 1, '0000-00-00 00:00:00', 0),
 (2, 'Test', 'detay', '2020-11-23 23:10:10', 1, 1, 1, '2020-11-30 23:10:10', 1),
 (3, 'asdas', 'asdasd', '2020-11-28 23:48:26', 1, 1, 3, '2020-12-05 23:48:26', 0),
-(4, 'yeni', 'dsfsdfs', '2020-11-28 23:49:48', 1, 1, 3, '2020-12-05 23:49:48', 1);
+(4, 'yeni', 'dsfsdfs', '2020-11-28 23:49:48', 1, 1, 3, '2020-12-05 23:49:48', 1),
+(10, 'serdar ödev yap', 'sssss', '2020-11-30 01:15:24', 1, 3, 3, '2020-12-07 01:15:24', 0),
+(11, 'Bilal matematik', 'Karekök yayını sayfa 46', '2020-12-01 01:35:32', 1, 3, 7, '2020-12-08 01:35:32', 1);
 
 -- --------------------------------------------------------
 
@@ -383,7 +385,8 @@ CREATE TABLE `homework_publishs` (
 --
 
 INSERT INTO `homework_publishs` (`publish_id`, `homework_id`, `publisher_id`, `publisher_text`, `has_file`, `file_path`, `publish_date`) VALUES
-(1, 3, 3, 'hocam yaptım', 0, '', '2020-11-30 00:01:22');
+(1, 3, 3, 'hocam yaptım', 0, '', '2020-11-30 00:01:22'),
+(3, 10, 3, 'yaptım hocam', 0, '', '2020-11-30 01:15:36');
 
 -- --------------------------------------------------------
 
@@ -441,13 +444,15 @@ CREATE TABLE `login` (
 --
 
 INSERT INTO `login` (`login_id`, `login_name`, `login_password`, `login_detail_id`, `login_type`, `isActive`) VALUES
-(1, 'kullanici_adi', 'sifre', 1, 1, 1),
+(1, 'kullanici_adi', 'sifre', 1, 1, 0),
 (2, 'ahmet_bey', 'ahmet123', 1, 2, 1),
 (3, 'hakann', 'hakan123', 2, 2, 1),
-(4, 'name', 'pass', 2, 1, 1),
+(4, 'name', 'pass', 2, 1, 0),
 (5, 'serdar', '123', 3, 1, 1),
 (6, 'serdar2', 'serdar', 1, 2, 1),
-(7, 'fghfghf', 'serdar', 5, 1, 1);
+(7, 'fghfghf', 'serdar', 5, 1, 1),
+(8, 'furkan', '123', 6, 1, 1),
+(9, 'bilal', '123', 7, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -471,10 +476,12 @@ CREATE TABLE `students` (
 --
 
 INSERT INTO `students` (`student_id`, `student_number`, `student_name`, `student_lastname`, `student_mail`, `student_phone`, `student_class_id`, `isActive`) VALUES
-(1, '62244414', 'Test', 'Test', 'test@mail.com', '5312456123', 1, 1),
-(2, '55181667', 'Ze', 'Te', 'zeze@mail.com', '123456', 4, 1),
+(1, '62244414', 'Test', 'Test', 'test@mail.com', '5312456123', 1, 0),
+(2, '55181667', 'Ze', 'Te', 'zeze@mail.com', '123456', 4, 0),
 (3, '32434233', 'serdar', 'ates', 'serdardfgdfg@gmail.com', '789456', 1, 1),
-(5, '1966091', 'serdar', 'ates', 'sdfsdf', '43534534', 1, 1);
+(5, '1966091', 'serdar', 'ates', 'sdfsdf', '43534534', 1, 1),
+(6, '30004024', 'furkan', 'toptas', 'furkan.toptas@gmail.com', '053214527845', 1, 1),
+(7, '31195584', 'bilal', 'basulas', 'bilal@gmail.com', '05244112224', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -507,14 +514,14 @@ INSERT INTO `teachers` (`teacher_id`, `teacher_name`, `teacher_lastname`, `teach
 -- (Asıl görünüm için aşağıya bakın)
 --
 CREATE TABLE `view_all_students` (
-`login_name` varchar(50)
-,`login_password` varchar(50)
-,`student_class_id` int(11)
-,`student_id` int(11)
+`student_id` int(11)
+,`student_name` varchar(75)
 ,`student_lastname` varchar(75)
 ,`student_mail` varchar(75)
-,`student_name` varchar(75)
 ,`student_phone` varchar(75)
+,`student_class_id` int(11)
+,`login_name` varchar(50)
+,`login_password` varchar(50)
 );
 
 -- --------------------------------------------------------
@@ -606,13 +613,13 @@ ALTER TABLE `classes`
 -- Tablo için AUTO_INCREMENT değeri `homeworks`
 --
 ALTER TABLE `homeworks`
-  MODIFY `homework_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `homework_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `homework_publishs`
 --
 ALTER TABLE `homework_publishs`
-  MODIFY `publish_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `publish_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `lectures`
@@ -630,13 +637,13 @@ ALTER TABLE `lecture_teachers`
 -- Tablo için AUTO_INCREMENT değeri `login`
 --
 ALTER TABLE `login`
-  MODIFY `login_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `login_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `students`
 --
 ALTER TABLE `students`
-  MODIFY `student_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `student_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `teachers`

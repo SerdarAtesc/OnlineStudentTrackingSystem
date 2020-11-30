@@ -1,30 +1,20 @@
-<!-- <p>ogrenciler works!</p> -->
-<!-- <ul>{{totalAngularPackages[0]["student_id"]}}</ul> -->
 
-
-
-    <!-- /*<td *ngFor="let item of totalAngularPackages; let i = index">
-      {{item.student_name}}
-    </td> -->
-
-
-   
 <app-adminnavbar></app-adminnavbar>
        
 
    
 
 
+<div class="table-responsive">
 
-
-   <table class="table">
+   <table class="table table-striped">
     <thead>
       <tr>
-        <th scope="col">Student Number</th>
-        <th scope="col">Student Name</th>
-        <th scope="col">Student Last Name</th>
-        <th scope="col">student Mail</th>
-        <th scope="col">student Phone</th>
+        <th scope="col">Öğrenci Numarası</th>
+        <th scope="col">Öğrenci Adı Soyadı</th>
+        <th scope="col">Öğrenci Mail</th>
+        <th scope="col">Öğrenci Phone</th>
+        <th scope="col">Öğrenci Sil</th>
       </tr>
     </thead>
     <tbody>
@@ -34,12 +24,8 @@
                 {{item.student_number}}
             </td>
             <td>
-                {{item.student_name}}
-            </td>
-            <td>
-                {{item.student_lastname}}
-            </td>
-           
+                {{item.student_name}} {{item.student_lastname}}
+            </td> 
             <td>
                 {{item.student_mail}}
             </td>
@@ -47,6 +33,13 @@
             <td>
                 {{item.student_phone}}  
             </td>
+            <td>
+               
+              <button    onclick="window.location.reload();"  class="btn btn-danger"          type="submit" (click)="studentDelete(item.student_id)">Sil</button>
+              
+              
+          </td>
       </tr>
     </tbody>
   </table> 
+</div> 

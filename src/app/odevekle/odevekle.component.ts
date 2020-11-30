@@ -17,11 +17,11 @@ export class OdevekleComponent implements OnInit {
   students='';
   teacher_id="";
   teacher={};
-  
+  lectures={};
    
 
 
-  constructor(private http:HttpClient,private _user:UserService,private  cookie:CookieService) {
+  constructor(private http:HttpClient,private _user:UserService,private  cookie:CookieService,private route:Router) {
     const allCookies: {} = cookie.getAll();
 
     this.teacher = JSON.parse(cookie.get("login"));
@@ -44,8 +44,15 @@ export class OdevekleComponent implements OnInit {
     this.odevekleForm.controls['assignerid'].setValue(this.teacher_id);
     this.http.get<any>('http://localhost:3000/student/List/0').subscribe(data => {
         this.students = data;
+        
        // console.log(this.students);
-    })        
+    })  
+    this.http.get<any>('http://localhost:3000/lecture/List').subscribe(data => {
+      this.lectures = data;
+      
+     // console.log(this.students);
+  })
+          
 }
 
 odevekle(){
@@ -58,9 +65,10 @@ odevekle(){
   if(!this.odevekleForm.valid){
 
     console.log('Invalid');
-    
+    alert("Eksik Alanlar Var");
     return ;
   }
   this._user.odevekle(this.odevekleForm.value)
+  this.route.navigate(["odevlist"]);
 
 }}

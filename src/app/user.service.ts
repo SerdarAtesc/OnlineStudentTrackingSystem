@@ -74,6 +74,9 @@ export class UserService {
   deleteHomeWork(id){
     return this._http.delete('http://localhost:3000/homework/Delete/'+ id);
   }
+  deleteStudent(id){
+    return this._http.delete('http://localhost:3000/student/Delete/'+ id);
+  }
   
   async update(postdata: any){
     const response = await fetch('http://localhost:3000/student/Update', {

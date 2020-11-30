@@ -16,21 +16,20 @@
               <input type="text" class="form-control"  placeholder="Homework Title" formControlName="title">
             </div>
             <div class="form-group">
-              <label for="exampleFormControlSelect1">Lecture select</label>
-              <select class="form-control" id="exampleFormControlSelect1" formControlName="lectureid" >
-                <option [ngValue]="null" disabled>Choose your profile</option>
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
+              <label for="exampleFormControlSelect1">Ders Seçin</label><br>
+              <select formControlName="lectureid" class="form-control">
+                <option [ngValue]="null" disabled>Ders Seçin</option>
+                <option *ngFor="let lecture of lectures" [ngValue]="lecture.lecture_id">
+                     {{lecture.lecture_title}}
+                 </option>
+
               </select>
             </div>
             <div class="form-group">
-              <label for="exampleFormControlSelect2">Student multiple select</label>
+              <label for="exampleFormControlSelect2">Öğrenci Seçin</label>
               <br>
-              <select formControlName="studentid">
-                <option [ngValue]="null" disabled>Choose your profile</option>
+              <select formControlName="studentid" class="form-control">
+                <option [ngValue]="null" disabled>Öğrenci Seçin</option>
                 <option *ngFor="let student of students" [ngValue]="student.student_id">
                      {{student.student_name}}
                  </option>
@@ -41,7 +40,7 @@
 
             </div>
             <div class="form-group">
-              <label for="exampleFormControlTextarea1">Homework Detail</label>
+              <label  for="exampleFormControlTextarea1">Homework Detail</label>
               <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"  formControlName="detail"           ></textarea>
             </div>
             <!-- <div class="form-group">
@@ -52,7 +51,7 @@
           
 
             <div class="form-group text-center">
-                <button type="submit" class="btn-success text-center"   (click)="odevekle()"      > Ekle</button>
+                <button style="width: 50px;" type="submit"  class="btn-success text-center"   (click)="odevekle()"      > Ekle</button>
             </div>
            
           </form>
