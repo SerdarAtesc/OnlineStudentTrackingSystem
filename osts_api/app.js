@@ -53,7 +53,7 @@ app.use('/lecture',lectureRouter)
 var connection = mysql.createConnection({
   host     : 'localhost',
   user     : 'root',
-  password : 'serdar123',
+  password : '123456789',
   database : 'osts',
 });
 

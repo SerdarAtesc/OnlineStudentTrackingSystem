@@ -2,44 +2,45 @@
 <app-adminnavbar></app-adminnavbar>
        
 
+   <div class="container" style="margin-left: 222px; padding-top: 100px;">
+    <div class="table-responsive">
+
+      <table class="table table-striped">
+       <thead>
+         <tr>
+           <th scope="col">Öğrenci Numarası</th>
+           <th scope="col">Öğrenci Adı Soyadı</th>
+           <th scope="col">Öğrenci Mail</th>
+           <th scope="col">Öğrenci Phone</th>
+           <th scope="col">Öğrenci Sil</th>
+         </tr>
+       </thead>
+       <tbody>
    
+         <tr  *ngFor="let item of students; let i = index">
+               <td>
+                   {{item.student_number}}
+               </td>
+               <td>
+                   {{item.student_name}} {{item.student_lastname}}
+               </td> 
+               <td>
+                   {{item.student_mail}}
+               </td>
+   
+               <td>
+                   {{item.student_phone}}  
+               </td>
+               <td>
+                  
+                 <button    onclick="window.location.reload();"  class="btn btn-danger"          type="submit" (click)="studentDelete(item.student_id)">Sil</button>
+                 
+                 
+             </td>
+         </tr>
+       </tbody>
+     </table> 
+   </div> 
+  </div>
 
 
-<div class="table-responsive">
-
-   <table class="table table-striped">
-    <thead>
-      <tr>
-        <th scope="col">Öğrenci Numarası</th>
-        <th scope="col">Öğrenci Adı Soyadı</th>
-        <th scope="col">Öğrenci Mail</th>
-        <th scope="col">Öğrenci Phone</th>
-        <th scope="col">Öğrenci Sil</th>
-      </tr>
-    </thead>
-    <tbody>
-
-      <tr  *ngFor="let item of students; let i = index">
-            <td>
-                {{item.student_number}}
-            </td>
-            <td>
-                {{item.student_name}} {{item.student_lastname}}
-            </td> 
-            <td>
-                {{item.student_mail}}
-            </td>
-
-            <td>
-                {{item.student_phone}}  
-            </td>
-            <td>
-               
-              <button    onclick="window.location.reload();"  class="btn btn-danger"          type="submit" (click)="studentDelete(item.student_id)">Sil</button>
-              
-              
-          </td>
-      </tr>
-    </tbody>
-  </table> 
-</div> 

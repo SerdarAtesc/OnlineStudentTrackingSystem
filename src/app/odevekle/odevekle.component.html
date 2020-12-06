@@ -3,13 +3,13 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <!------ Include the above in your HEAD tag ---------->
 
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
+
 
 <body>
 <app-adminnavbar></app-adminnavbar>
-<br><br><br>
-<div class="container">
-    <div class="card bg-light">
+
+<div class="container" style="margin-left: 222px; padding-top: 100px;">
+    <div class="card bg-light p-3">
         <form [formGroup]="odevekleForm">
             <div class="form-group">
                 <label for="exampleFormControlInput1">Homework Title</label>
@@ -51,7 +51,7 @@
           
 
             <div class="form-group text-center">
-                <button style="width: 50px;" type="submit"  class="btn-success text-center"   (click)="odevekle()"      > Ekle</button>
+                <button style="width: 100%; height: 50px;" type="submit"  class="btn-success text-center"   (click)="odevekle()"      > EKLE</button>
             </div>
            
           </form>

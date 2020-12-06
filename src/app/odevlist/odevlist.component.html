@@ -1,54 +1,56 @@
 <app-adminnavbar></app-adminnavbar>
 
-
-
-
-
-<table class="table">
-    <thead>
-      <tr>
-        <th scope="col">Öğrenci Adı</th>
-        <th scope="col">student_lastname</th>
-        <th scope="col">homework_title</th>
-        <th scope="col">homework_detail</th>
-        <th scope="col">create_date</th>
-        <th scope="col">last_date</th>
-        <th scope="col">lecture_title</th>
-      </tr>
-    </thead>
-    <tbody>
-
-      <tr  *ngFor="let item of teachers">
-            <td>
-                {{item.student_name}}
-            </td>
-            <td>
-                {{item.student_lastname}}
-            </td>
-            <td>
-                {{item.homework_title}}
-            </td>
-           
-            <td>
-                {{item.homework_detail}}
-            </td>
-
-            <td>
-                {{item.create_date}}  
-            </td>
-            <td>
-                {{item.last_date}}    
-            </td>
-            <td>
-                {{item.lecture_title}}    
-            </td>
-            <td>
+<div class="container" style="margin-left: 222px; padding-top: 100px;">
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Öğrenci Adı</th>
+            <th scope="col">student_lastname</th>
+            <th scope="col">homework_title</th>
+            <th scope="col">homework_detail</th>
+            <th scope="col">create_date</th>
+            <th scope="col">last_date</th>
+            <th scope="col">lecture_title</th>
+          </tr>
+        </thead>
+        <tbody>
+    
+          <tr  *ngFor="let item of teachers">
+                <td>
+                    {{item.student_name}}
+                </td>
+                <td>
+                    {{item.student_lastname}}
+                </td>
+                <td>
+                    {{item.homework_title}}
+                </td>
                
-                <button    onclick="window.location.reload();"  class="btn btn-danger"          type="submit" (click)="homeworkDelete(item.homework_id)">Sil</button>
-                
-                
-            </td>
-        
-      </tr>
-    </tbody>
-  </table> 
+                <td>
+                    {{item.homework_detail}}
+                </td>
+    
+                <td>
+                    {{item.create_date}}  
+                </td>
+                <td>
+                    {{item.last_date}}    
+                </td>
+                <td>
+                    {{item.lecture_title}}    
+                </td>
+                <td>
+                   
+                    <button    onclick="window.location.reload();"  class="btn btn-danger"          type="submit" (click)="homeworkDelete(item.homework_id)">Sil</button>
+                    
+                    
+                </td>
+            
+          </tr>
+        </tbody>
+      </table> 
+</div>
+
+
+
+

@@ -1,29 +1,39 @@
- <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" [routerLink]="['/adminhome']">{{teacher_name}}</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item active">
-          <a class="nav-link" [routerLink]="['/ogrenciler']">Öğrenciler <span class="sr-only">(current)</span></a>
-        </li>
-        <li class="nav-item active">
-          <a class="nav-link" [routerLink]="['/odevlist']">Verilen Ödevler</a>
-        </li>
-        <li class="nav-item active">
-          <a class="nav-link" [routerLink]="['/ogrenciekle']">Öğrenci Ekle</a>
-        </li>
-        <li class="nav-item active">
-          <a class="nav-link" [routerLink]="['/odevekle']">Ödev Ekle</a>
-        </li>
-        <li class="nav-item active">
-          <a class="nav-link" [routerLink]="['/publishs']">Teslim Edilen Ödevler</a>
-        </li>
-      </ul>
-      <form class="form-inline my-2 my-lg-0">
-           
-        <button class="btn btn-danger" [routerLink]="['/login']"  (click)="deletecookies()"         type="submit">Çıkış</button>
-      </form>
+
+
+  <div class="sidebar-container">
+    <div class="sidebar-logo">
+      <a [routerLink]="['/adminhome']"><img src="/assets/images/logo.png" alt="OSTS_logo"></a>
     </div>
-  </nav> 
+     <ul class="sidebar-navigation">
+      <li class="header">MENÜ</li>
+      <li><a [routerLink]="['/ogrenciler']"><i class="fa fa-users mr-3" ></i>Öğrenciler</a></li>
+      <li><a [routerLink]="['/odevlist']"><i class="fas fa-tachometer-alt mr-3"></i>Verilen Ödevler</a></li>
+      <!-- <li class="header">Another Menu</li>  -->
+      <li><a [routerLink]="['/ogrenciekle']"><i class="fas fa-user-plus mr-3" ></i>Öğrenci Ekle</a></li>
+      <li><a [routerLink]="['/odevekle']"><i class="fa fa-cog mr-3" ></i>Ödev Ekle</a></li>
+      <li><a [routerLink]="['/publishs']"><i class="fa fa-info-circle mr-3" ></i>Teslim Edilen Ödevler</a></li>
+      <li style="position: absolute; bottom: 0; left: 0;"><a  [routerLink]="['/login']" (click)="deletecookies()">
+        <i class="fas fa-sign-out-alt"></i> Çıkış
+      </a></li>
+    
+    </ul> 
+  </div>
+
+  
+  <div class="topbar">
+    <div class="dashboard-title">
+      Öğretmen Yönetim Paneli 
+    
+      <div class="profile">
+
+        <a class="navbar-brand" [routerLink]="['/adminhome']">
+          <img class="profilavatar" src="\assets\images\users\avatar-1.jpg" alt="profilavatar">
+         <p> {{teacher_name}}</p>
+        </a>
+      </div>
+    </div>
+    </div>
+ 
+  
+  
+
