@@ -2,11 +2,11 @@
 <app-adminnavbar></app-adminnavbar>
        
 
-   <div class="container" style="margin-left: 222px; padding-top: 100px;">
-    <div class="table-responsive">
+   <div class="container col col-sm-12" style="margin-left: 222px; padding-top: 100px;">
+    <div class="table-responsive col col-sm-12">
 
       <table class="table table-striped">
-       <thead>
+       <thead class="col col-sm-12">
          <tr>
            <th scope="col">Öğrenci Numarası</th>
            <th scope="col">Öğrenci Adı Soyadı</th>
@@ -17,7 +17,7 @@
        </thead>
        <tbody>
    
-         <tr  *ngFor="let item of students; let i = index">
+         <tr class="col col-sm-12" *ngFor="let item of students; let i = index">
                <td>
                    {{item.student_number}}
                </td>

@@ -46,23 +46,27 @@
     
                                         <div class="form-group">
                                             <label for="username">Kullanıcı Adı</label>
-                                            <input type="text" class="form-control" id="username" placeholder="Kullanıcı Adı" formControlName="username">
+                                            <input type="text" class="form-control"  placeholder="Kullanıcı Adı" formControlName="username">
                                         </div>
     
                                         <div class="form-group">
-                                            <label for="userpassword">Şifre</label>
-                                            <input type="password" class="form-control" id="userpassword" placeholder="Şifre" formControlName="password">
+                                            <label for="userpassword">Yeni Şifre</label>
+                                            <input type="password" class="form-control"  placeholder="Yeni Şifre" formControlName="password">
                                         </div>
                                         <div class="form-group">
                                             <label for="username">Mail</label>
-                                            <input type="text" class="form-control" id="username" placeholder="Mail Adresi" formControlName="mail">
+                                            <input type="text" class="form-control"  placeholder="Mail Adresi" formControlName="mail">
                                         </div>
                                         <div class="form-group">
                                             <label for="username">Güvenlik Kodu</label>
-                                            <input type="text" class="form-control" id="username" placeholder="Güvenlik Kodu" formControlName="code">
+                                            <input type="text" class="form-control"  placeholder="Güvenlik Kodu" formControlName="code">
                                         </div>
+
                                         <div class="form-group row mt-4">
-   
+                                            <div class="col-sm-6 text-left">
+                                                <button [routerLink]="['/login']"  class="btn btn-danger" type="button" >Ana Sayfa</button>
+                                            </div>
+
                                             <div class="col-sm-6 text-right">
                                                 <button class="btn btn-primary w-md waves-effect waves-light" type="button" (click)="update()">Güncelle</button>
                                             </div>

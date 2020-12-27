@@ -87,6 +87,7 @@ router.post('/Update', function (req, res, next) {
   });
 
 });
+
 router.post('/UpdatePassword', function (req, res, next) {
   var postParams = req.body;
   var querryParams = [
@@ -105,7 +106,7 @@ router.post('/UpdatePassword', function (req, res, next) {
     }
     try {
       if (results.affectedRows>0) {
-        res.json(results[0]);
+        res.json(true);
         return;
       } else {
         res.json(0);

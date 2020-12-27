@@ -1,6 +1,7 @@
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
 <!------ Include the above in your HEAD tag ---------->
 
 
@@ -39,7 +40,7 @@
     </div> <!-- form-group// -->
     <div class="form-group input-group">
     	<div class="input-group-prepend">
-		    <span class="input-group-text"> <i class="fa fa-envelope"></i> </span>
+		    <span class="input-group-text"> <i class="fa fa-envelope"> </i> </span>
 		 </div>
         <input name="" class="form-control" placeholder="Email adres" formControlName="mail">
     </div> <!-- form-group// -->
@@ -54,8 +55,8 @@
     	<div class="input-group-prepend">
 		    <span class="input-group-text"> <i class="fa fa-building"></i> </span>
 		</div>
-		<select class="form-control" formControlName="class">
-			<option selected=""> Sınıf Seçin</option>
+		<select class="form-control"  formControlName="class">
+			<option  [ngValue]="null" disabled> Sınıf Seçin</option>
 			<option>1</option>
 			<option>2</option>
             <option>3</option>

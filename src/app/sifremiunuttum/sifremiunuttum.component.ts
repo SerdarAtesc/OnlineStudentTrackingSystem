@@ -28,16 +28,12 @@ export class SifremiunuttumComponent implements OnInit {
     console.log(this.passwordUpdateForm.value);
 
     if(!this.passwordUpdateForm.valid){
-  
       console.log('Invalid');
-      
       return ;
     }
-
+    
       this._user.passwordUpdate(this.passwordUpdateForm.value)
-
-      
-      this._router.navigate(['login']);
+     // this._router.navigate(['login']);
   
     
   
