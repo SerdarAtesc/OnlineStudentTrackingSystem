@@ -28,10 +28,11 @@ router.post('/Add', function (req, res, next) {
     postParams.phone,
     postParams.class,//1 2 3 4 5 6 7 8
     postParams.username, // giriş adı
-    postParams.password // giriş şifresi
+    postParams.password,
+    postParams.code // giriş şifresi
   ]
   console.log(postParams);
-  var sqlQuerry = 'CALL SP_STUDENT_ADD(?,?,?,?,?,?,?)';
+  var sqlQuerry = 'CALL SP_STUDENT_ADD(?,?,?,?,?,?,?,?)';
   db.query(sqlQuerry, querryParams, function (err, results) {
     if (err) {
       res.json("database error")
@@ -69,6 +70,37 @@ router.post('/Update', function (req, res, next) {
   db.query(sqlQuerry, querryParams, function (err, results) {
     if (err) {
       res.json("database error")
+      return;
+    }
+    try {
+      if (results.affectedRows>0) {
+        res.json(results[0]);
+        return;
+      } else {
+        res.json(0);
+        return;
+      }
+    } catch (ex) {
+      res.json(-1);
+      return;
+    }
+  });
+
+});
+router.post('/UpdatePassword', function (req, res, next) {
+  var postParams = req.body;
+  var querryParams = [
+    postParams.username, // giriş adı
+    postParams.password, // giriş şifresi
+    postParams.mail,
+    postParams.code
+  ]
+  var sqlQuerry = 'CALL SP_PASSWORD_UPDATE(?,?,?,?)';
+  console.log(postParams);
+  db.query(sqlQuerry, querryParams, function (err, results) {
+    if (err) {
+      res.json("database error")
+      console.log(err);
       return;
     }
     try {

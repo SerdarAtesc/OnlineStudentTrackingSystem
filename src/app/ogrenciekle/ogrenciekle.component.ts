@@ -17,7 +17,8 @@ export class OgrenciekleComponent implements OnInit {
     lastname:new FormControl(null, Validators.required),
     mail:new FormControl(null, Validators.required),
     phone:new FormControl(null, Validators.required),
-    class:new FormControl(null, Validators.required)
+    class:new FormControl(null, Validators.required),
+    code:new FormControl(null, Validators.required)
   })
 
   constructor(private _router:Router,private _user:UserService) { }

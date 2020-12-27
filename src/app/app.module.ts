@@ -24,6 +24,7 @@ import { OdevlistComponent } from './odevlist/odevlist.component';
 import { OdevteslimComponent } from './odevteslim/odevteslim.component';
 import { PublishsComponent } from './publishs/publishs.component';
 import { OgretmenekleComponent } from './ogretmenekle/ogretmenekle.component';
+import { SifremiunuttumComponent } from './sifremiunuttum/sifremiunuttum.component';
 
 
 
@@ -44,7 +45,8 @@ import { OgretmenekleComponent } from './ogretmenekle/ogretmenekle.component';
     OdevlistComponent,
     OdevteslimComponent,
     PublishsComponent,
-    OgretmenekleComponent
+    OgretmenekleComponent,
+    SifremiunuttumComponent
   ],
   imports: [
     BrowserModule,

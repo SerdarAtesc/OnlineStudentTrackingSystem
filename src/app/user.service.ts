@@ -122,6 +122,28 @@ export class UserService {
       });
     }
   }
+  async passwordUpdate(postdata: any){
+    const response = await fetch('http://localhost:3000/student/UpdatePassword', {
+      method: 'POST',
+      body: JSON.stringify(postdata),
+      headers: {'Content-Type': 'application/json; charset=UTF-8'} });
+
+    if (!response.ok) { /* Handle */ }
+    if (response.body !== null) {
+
+      console.log(response);
+
+      const promise = new Promise((resolve, reject) => {
+        resolve(123);
+      });
+      promise.then((res) => {
+        console.log('I get called:', res === 123); // I get called: true
+      });
+      promise.catch((err) => {
+        // This is never called
+      });
+    }
+  }
   
   async odevteslim(postdata: any){
     const response = await fetch('http://localhost:3000/homework/Publish', {

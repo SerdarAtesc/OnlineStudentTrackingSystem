@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Anamakine: localhost
--- Üretim Zamanı: 27 Ara 2020, 19:48:53
+-- Üretim Zamanı: 27 Ara 2020, 21:48:37
 -- Sunucu sürümü: 8.0.17
 -- PHP Sürümü: 7.3.10
 
@@ -120,6 +120,19 @@ from login left JOIN ateachers on login.login_detail_id=ateachers.ateacher_id WH
 
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_PASSWORD_UPDATE` (IN `_username` TEXT, IN `_password` TEXT, IN `_mail` TEXT, IN `_code` TEXT)  MODIFIES SQL DATA
+BEGIN
+
+DECLARE  _gcode INT;
+SET _gcode = (SELECT students.student_code FROM students WHERE students.student_mail=_mail);
+
+UPDATE login SET 
+login.login_password=_password
+
+WHERE _gcode=_code AND login.login_name=_username;
+
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_SHOW_STUDENTS` (IN `_class` INT)  READS SQL DATA
 BEGIN
 
@@ -162,7 +175,7 @@ END IF ;
 
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_STUDENT_ADD` (IN `_name` TEXT, IN `_lastname` TEXT, IN `_mail` TEXT, IN `_phone` TEXT, IN `_classid` INT, IN `_username` TEXT, IN `_password` TEXT)  BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_STUDENT_ADD` (IN `_name` TEXT, IN `_lastname` TEXT, IN `_mail` TEXT, IN `_phone` TEXT, IN `_classid` INT, IN `_username` TEXT, IN `_password` TEXT, IN `_code` TEXT)  BEGIN
 
 DECLARE _studentid INT;
 DECLARE _studentdetailid INT;
@@ -176,14 +189,16 @@ INSERT INTO students
  students.student_lastname,
   students.student_phone,
  students.student_mail,
- students.student_class_id)
+ students.student_class_id,
+ students.student_code)
  VALUES
  (_studentid,
   _name,
   _lastname,
   _phone,
  _mail
-  ,_classid);
+  ,_classid,
+  _code);
  
 SET _studentdetailid=LAST_INSERT_ID();
  
@@ -479,17 +494,18 @@ CREATE TABLE `login` (
 --
 
 INSERT INTO `login` (`login_id`, `login_name`, `login_password`, `login_detail_id`, `login_type`, `isActive`) VALUES
-(1, 'kullanici_adi', 'sifre', 1, 1, 0),
+(1, 'kullanici_adi', 'serdar', 1, 1, 0),
 (2, 'ahmet_bey', 'ahmet123', 1, 2, 1),
 (3, 'hakann', 'hakan123', 2, 2, 1),
 (4, 'name', 'pass', 2, 1, 0),
-(5, 'serdar', '123', 3, 1, 1),
+(5, 'serdar', 'yenisifre', 3, 1, 1),
 (6, 'serdar2', 'serdar', 1, 2, 1),
 (7, 'fghfghf', 'serdar', 5, 1, 1),
 (8, 'furkan', '123', 6, 1, 1),
 (9, 'bilal', '123', 7, 1, 1),
 (10, 'ahmet', '123', 8, 1, 1),
-(14, 'yeniogr', '123', 6, 2, 1);
+(14, 'yeniogr', '123', 6, 2, 1),
+(15, 'ghjhjnnb', '33333333333', 9, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -505,6 +521,7 @@ CREATE TABLE `students` (
   `student_mail` varchar(75) NOT NULL,
   `student_phone` varchar(75) NOT NULL,
   `student_class_id` int(11) NOT NULL,
+  `student_code` varchar(6) NOT NULL,
   `isActive` int(11) DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
@@ -512,14 +529,15 @@ CREATE TABLE `students` (
 -- Tablo döküm verisi `students`
 --
 
-INSERT INTO `students` (`student_id`, `student_number`, `student_name`, `student_lastname`, `student_mail`, `student_phone`, `student_class_id`, `isActive`) VALUES
-(1, '62244414', 'Test', 'Test', 'test@mail.com', '5312456123', 1, 0),
-(2, '55181667', 'Ze', 'Te', 'zeze@mail.com', '123456', 4, 0),
-(3, '32434233', 'serdar', 'ates', 'serdardfgdfg@gmail.com', '789456', 1, 1),
-(5, '1966091', 'serdar', 'ates', 'sdfsdf', '43534534', 1, 1),
-(6, '30004024', 'furkan', 'toptas', 'furkan.toptas@gmail.com', '053214527845', 1, 1),
-(7, '31195584', 'bilal', 'basulas', 'bilal@gmail.com', '05244112224', 1, 1),
-(8, '52792782', 'ahmet', 'ateş', 'ahmet.ates@gmail.com', '05321234578', 3, 1);
+INSERT INTO `students` (`student_id`, `student_number`, `student_name`, `student_lastname`, `student_mail`, `student_phone`, `student_class_id`, `student_code`, `isActive`) VALUES
+(1, '62244414', 'Test', 'Test', 'test@mail.com', '5312456123', 1, '123456', 0),
+(2, '55181667', 'Ze', 'Te', 'zeze@mail.com', '123456', 4, '123456', 0),
+(3, '32434233', 'serdar', 'ates', 'serdardfgdfg@gmail.com', '789456', 1, '456123', 1),
+(5, '1966091', 'serdar', 'ates', 'sdfsdf', '43534534', 1, '123456', 1),
+(6, '30004024', 'furkan', 'toptas', 'furkan.toptas@gmail.com', '053214527845', 1, '123456', 1),
+(7, '31195584', 'bilal', 'basulas', 'bilal@gmail.com', '05244112224', 1, '123456', 1),
+(8, '52792782', 'ahmet', 'ateş', 'ahmet.ates@gmail.com', '05321234578', 3, '123456', 1),
+(9, '88799649', 'yeniogrr', 'yenioger', 'dfhdhdfhd', '456456456', 1, '666666', 1);
 
 -- --------------------------------------------------------
 
@@ -676,13 +694,13 @@ ALTER TABLE `lecture_teachers`
 -- Tablo için AUTO_INCREMENT değeri `login`
 --
 ALTER TABLE `login`
-  MODIFY `login_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `login_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `students`
 --
 ALTER TABLE `students`
-  MODIFY `student_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `student_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `teachers`
