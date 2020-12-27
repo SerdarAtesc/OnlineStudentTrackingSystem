@@ -11,6 +11,7 @@ import { OdevlistComponent } from './odevlist/odevlist.component';
 import { OdevteslimComponent } from './odevteslim/odevteslim.component';
 import { OgrenciekleComponent } from './ogrenciekle/ogrenciekle.component';
 import { OgrencilerComponent } from './ogrenciler/ogrenciler.component';
+import { OgretmenekleComponent } from './ogretmenekle/ogretmenekle.component';
 import { PublishsComponent } from './publishs/publishs.component';
 import { RegisterComponent } from './register/register.component';
 import { UserhomeComponent } from './userhome/userhome.component';
@@ -32,7 +33,8 @@ const routes: Routes = [
   {path:"odevlerim",component:OdevlerimComponent},
   {path:"odevlist",component:OdevlistComponent},
   {path:"odevteslim",component:OdevteslimComponent},
-  {path:"publishs",component:PublishsComponent}
+  {path:"publishs",component:PublishsComponent},
+  {path:"ogretmenekle",component:OgretmenekleComponent}
 ];
 
 @NgModule({

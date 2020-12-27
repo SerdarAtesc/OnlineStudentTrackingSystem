@@ -23,6 +23,7 @@ import { OdevlerimComponent } from './odevlerim/odevlerim.component';
 import { OdevlistComponent } from './odevlist/odevlist.component';
 import { OdevteslimComponent } from './odevteslim/odevteslim.component';
 import { PublishsComponent } from './publishs/publishs.component';
+import { OgretmenekleComponent } from './ogretmenekle/ogretmenekle.component';
 
 
 
@@ -42,7 +43,8 @@ import { PublishsComponent } from './publishs/publishs.component';
     OdevlerimComponent,
     OdevlistComponent,
     OdevteslimComponent,
-    PublishsComponent
+    PublishsComponent,
+    OgretmenekleComponent
   ],
   imports: [
     BrowserModule,

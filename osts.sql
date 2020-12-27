@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Anamakine: localhost
--- Üretim Zamanı: 30 Kas 2020, 22:38:53
+-- Üretim Zamanı: 27 Ara 2020, 19:48:53
 -- Sunucu sürümü: 8.0.17
 -- PHP Sürümü: 7.3.10
 
@@ -251,6 +251,39 @@ WHERE login.login_type=1 AND login.login_detail_id=_id;
 
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_TEACHER_ADD` (IN `_name` TEXT, IN `_lastname` TEXT, IN `_mail` TEXT, IN `_phone` TEXT, IN `_detail` TEXT, IN `_username` TEXT, IN `_password` TEXT)  BEGIN
+DECLARE _teacherdetailid INT;
+INSERT INTO teachers(
+teachers.teacher_name,
+teachers.teacher_lastname,
+teachers.teacher_mail,
+teachers.teacher_phone,
+teachers.teacher_detail
+)
+VALUES(
+_name,
+_lastname,
+_mail,
+_phone,
+_detail
+);
+
+SET _teacherdetailid=LAST_INSERT_ID();
+
+INSERT INTO login
+(login.login_name,
+ login.login_password,
+ login.login_type,
+ login.login_detail_id)
+ VALUES
+ (_username,
+  _password,
+  2,
+  _teacherdetailid);
+  
+    SELECT * FROM login WHERE login.login_id=LAST_INSERT_ID();
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_TEACHER_HOMEWORK_LIST` (IN `_id` INT)  READS SQL DATA
 BEGIN 
 
@@ -362,7 +395,8 @@ INSERT INTO `homeworks` (`homework_id`, `homework_title`, `homework_detail`, `ho
 (3, 'asdas', 'asdasd', '2020-11-28 23:48:26', 1, 1, 3, '2020-12-05 23:48:26', 0),
 (4, 'yeni', 'dsfsdfs', '2020-11-28 23:49:48', 1, 1, 3, '2020-12-05 23:49:48', 1),
 (10, 'serdar ödev yap', 'sssss', '2020-11-30 01:15:24', 1, 3, 3, '2020-12-07 01:15:24', 0),
-(11, 'Bilal matematik', 'Karekök yayını sayfa 46', '2020-12-01 01:35:32', 1, 3, 7, '2020-12-08 01:35:32', 1);
+(11, 'Bilal matematik', 'Karekök yayını sayfa 46', '2020-12-01 01:35:32', 1, 3, 7, '2020-12-08 01:35:32', 1),
+(12, 'Matematik test', 'herhangi bir kitapdan 35 soru test', '2020-12-01 15:34:05', 1, 3, 8, '2020-12-08 15:34:05', 0);
 
 -- --------------------------------------------------------
 
@@ -386,7 +420,8 @@ CREATE TABLE `homework_publishs` (
 
 INSERT INTO `homework_publishs` (`publish_id`, `homework_id`, `publisher_id`, `publisher_text`, `has_file`, `file_path`, `publish_date`) VALUES
 (1, 3, 3, 'hocam yaptım', 0, '', '2020-11-30 00:01:22'),
-(3, 10, 3, 'yaptım hocam', 0, '', '2020-11-30 01:15:36');
+(3, 10, 3, 'yaptım hocam', 0, '', '2020-11-30 01:15:36'),
+(4, 12, 8, '35 soruyu çözdüm 30 dogru 5 yanlış', 0, '', '2020-12-01 15:35:38');
 
 -- --------------------------------------------------------
 
@@ -452,7 +487,9 @@ INSERT INTO `login` (`login_id`, `login_name`, `login_password`, `login_detail_i
 (6, 'serdar2', 'serdar', 1, 2, 1),
 (7, 'fghfghf', 'serdar', 5, 1, 1),
 (8, 'furkan', '123', 6, 1, 1),
-(9, 'bilal', '123', 7, 1, 1);
+(9, 'bilal', '123', 7, 1, 1),
+(10, 'ahmet', '123', 8, 1, 1),
+(14, 'yeniogr', '123', 6, 2, 1);
 
 -- --------------------------------------------------------
 
@@ -481,7 +518,8 @@ INSERT INTO `students` (`student_id`, `student_number`, `student_name`, `student
 (3, '32434233', 'serdar', 'ates', 'serdardfgdfg@gmail.com', '789456', 1, 1),
 (5, '1966091', 'serdar', 'ates', 'sdfsdf', '43534534', 1, 1),
 (6, '30004024', 'furkan', 'toptas', 'furkan.toptas@gmail.com', '053214527845', 1, 1),
-(7, '31195584', 'bilal', 'basulas', 'bilal@gmail.com', '05244112224', 1, 1);
+(7, '31195584', 'bilal', 'basulas', 'bilal@gmail.com', '05244112224', 1, 1),
+(8, '52792782', 'ahmet', 'ateş', 'ahmet.ates@gmail.com', '05321234578', 3, 1);
 
 -- --------------------------------------------------------
 
@@ -505,7 +543,8 @@ CREATE TABLE `teachers` (
 
 INSERT INTO `teachers` (`teacher_id`, `teacher_name`, `teacher_lastname`, `teacher_mail`, `teacher_phone`, `teacher_detail`, `isActive`) VALUES
 (1, 'Ahmet Hoca', 'Bey', 'ahmetmail@mail.com', '5325520', 'Matematik ve Fen alanlarında uzman ayrıca edebiyat eğitimi almış.', 1),
-(2, 'Hakan', 'Hoca', 'hakan@mail.com', '02132102', 'Hakan bey Edebiyat uzmanıdır.', 1);
+(2, 'Hakan', 'Hoca', 'hakan@mail.com', '02132102', 'Hakan bey Edebiyat uzmanıdır.', 1),
+(6, 'yeni ogr', 'yeni ogr', 'yeniogr@gmail.com', '543534534', 'ogretmen', 1);
 
 -- --------------------------------------------------------
 
@@ -613,13 +652,13 @@ ALTER TABLE `classes`
 -- Tablo için AUTO_INCREMENT değeri `homeworks`
 --
 ALTER TABLE `homeworks`
-  MODIFY `homework_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `homework_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `homework_publishs`
 --
 ALTER TABLE `homework_publishs`
-  MODIFY `publish_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `publish_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `lectures`
@@ -637,19 +676,19 @@ ALTER TABLE `lecture_teachers`
 -- Tablo için AUTO_INCREMENT değeri `login`
 --
 ALTER TABLE `login`
-  MODIFY `login_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `login_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `students`
 --
 ALTER TABLE `students`
-  MODIFY `student_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `student_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `teachers`
 --
 ALTER TABLE `teachers`
-  MODIFY `teacher_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `teacher_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

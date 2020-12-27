@@ -14,6 +14,7 @@ var usersRouter = require('./routes/users');
 var studentRouter = require('./routes/students');
 var homeworkRouter = require('./routes/homeworks');
 var lectureRouter = require('./routes/lecture');
+var teacherRouter = require('./routes/teachers');
 
 
 var app = express();
@@ -41,7 +42,8 @@ app.use('/users', usersRouter);
 app.use('/login', loginRouter);
 app.use('/student', studentRouter);
 app.use('/homework', homeworkRouter);
-app.use('/lecture',lectureRouter)
+app.use('/lecture',lectureRouter);
+app.use('/teachers',teacherRouter);
 
 
 
@@ -53,7 +55,7 @@ app.use('/lecture',lectureRouter)
 var connection = mysql.createConnection({
   host     : 'localhost',
   user     : 'root',
-  password : '123456789',
+  password : 'serdar123',
   database : 'osts',
 });
 
