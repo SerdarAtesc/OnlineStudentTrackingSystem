@@ -9,13 +9,14 @@ import { UserService } from '../user.service';
   styleUrls: ['./ogrenciekle.component.css']
 })
 export class OgrenciekleComponent implements OnInit {
-  
+
   genpass;
+
+
   passChange(){
 
     this.genpass=Math.random().toString(36).slice(2);
-   // alert("Şifreniz:  "+this.genpass);
-    
+    alert("Şifre Önerisi:  "+this.genpass);
 }
 
 
@@ -42,10 +43,32 @@ export class OgrenciekleComponent implements OnInit {
     //this.ogrenciekleForm.setValue({password:this.genpass});
     if(!this.ogrenciekleForm.valid){
       console.log('Invalid');
-      console.log(this.ogrenciekleForm);
+      alert("Eksik Bilgi");
+
+      //console.log(this.ogrenciekleForm);
       return ;
     }
-    
+       
+    if (this.ogrenciekleForm.value["name"].match(/[^a-zA-Z ğüşıöçĞÜŞİÖÇ.,]/g)) {
+      alert ("isminiz hatalı")
+      return   
+  }
+   else if (this.ogrenciekleForm.value["lastname"].match(/[^a-zA-Z ğüşıöçĞÜŞİÖÇ.,]/g)) {
+    alert ("soyisim hatalı")
+    return   
+}
+  else if (!this.ogrenciekleForm.value["phone"].match(/[^a-zA-Z ğüşıöçĞÜŞİÖÇ.,]/g)) {
+  alert ("telefon hatalı")
+  return   
+}
+    var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+    if(!regex.test(this.ogrenciekleForm.value["mail"]))
+    {
+      alert("Email Hatalı")
+      return 
+    }
+
+
     this._user.ogrenciekle(this.ogrenciekleForm.value)
     this._router.navigate(["ogrenciler"]);
 
