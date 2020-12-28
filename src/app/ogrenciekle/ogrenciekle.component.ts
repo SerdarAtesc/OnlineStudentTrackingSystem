@@ -9,10 +9,22 @@ import { UserService } from '../user.service';
   styleUrls: ['./ogrenciekle.component.css']
 })
 export class OgrenciekleComponent implements OnInit {
+  
+  genpass;
+  passChange(){
+
+    this.genpass=Math.random().toString(36).slice(2);
+   // alert("Şifreniz:  "+this.genpass);
+    
+}
+
+
+
+
 
   ogrenciekleForm :FormGroup = new FormGroup({
-    username:new FormControl(null,[Validators.required]),
-    password:new FormControl(null, Validators.required),
+    username:new FormControl(null,Validators.required),
+    password:new FormControl(null, Validators.required ),
     name:new FormControl(null, Validators.required),
     lastname:new FormControl(null, Validators.required),
     mail:new FormControl(null, Validators.required),
@@ -27,15 +39,20 @@ export class OgrenciekleComponent implements OnInit {
   }
 
   ogrenciekle(){
+    //this.ogrenciekleForm.setValue({password:this.genpass});
     if(!this.ogrenciekleForm.valid){
       console.log('Invalid');
+      console.log(this.ogrenciekleForm);
       return ;
     }
     
     this._user.ogrenciekle(this.ogrenciekleForm.value)
     this._router.navigate(["ogrenciler"]);
 
+  
+}
 
-    
 
-}}
+
+
+}

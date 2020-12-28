@@ -5,7 +5,6 @@
 <!------ Include the above in your HEAD tag ---------->
 
 
-
     <body>
 
 
@@ -42,7 +41,7 @@
     	<div class="input-group-prepend">
 		    <span class="input-group-text"> <i class="fa fa-envelope"> </i> </span>
 		 </div>
-        <input name="" class="form-control" placeholder="Email adres" formControlName="mail">
+        <input name="" class="form-control" placeholder="Email adres" type="email" formControlName="mail">
     </div> <!-- form-group// -->
     <div class="form-group input-group">
     	<div class="input-group-prepend">
@@ -76,8 +75,12 @@
     <div class="form-group input-group">
     	<div class="input-group-prepend">
 		    <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
-		</div>
-        <input class="form-control" placeholder="Şifre" type="password"formControlName="password">
+        </div>
+        
+        <input value="{{genpass}}" class="form-control"   placeholder="Şifre" type="text" formControlName="password">
+        <div class="input-group-append">
+		    <button   (click)="passChange()"      class="input-group fa fa-key" style="background-color: white;"></button>
+        </div>
     </div> <!-- form-group// -->
     <div class="form-group input-group">
 		<div class="input-group-prepend">
@@ -94,5 +97,5 @@
 </div> <!-- card.// -->
 
 </div> 
-
 </body>
+

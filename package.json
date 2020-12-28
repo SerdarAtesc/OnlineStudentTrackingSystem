@@ -21,6 +21,7 @@
     "@angular/router": "~10.2.0",
     "bootstrap": "^4.5.3",
     "ngx-cookie-service": "^10.1.1",
+    "ngx-show-hide-password": "^2.3.0",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.2"
