@@ -1,12 +1,13 @@
 var express = require('express');
 var router = express.Router();
 
+
 router.post('/', function (req, res, next) {
 
     //var postParams = req.body.data;
   var postParams = req.body;
 
-  var querryParams = [postParams.username, postParams.password]
+  var querryParams = [postParams.username,  md5(postParams.password)];
 
     var sqlQuerry = 'CALL SP_LOGIN(?,?)';
     db.query(sqlQuerry, querryParams, function (err, results) {
@@ -15,7 +16,9 @@ router.post('/', function (req, res, next) {
             return;
         }
         try {
+            console.log(querryParams);
             if (results.length > 0) {
+                
                 res.json(results[0][0]);
                 return;
             } else {
@@ -33,7 +36,7 @@ router.post('/', function (req, res, next) {
 router.post('/passwordChange', function (req, res, next) {
 
     var postParams = req.body.data;
-    var querryParams = [postParams.id, postParams.old, postParams.new];
+    var querryParams = [postParams.id, md5(postParams.old), md5(postParams.new)];
     var sqlQuerry = 'CALL SP_PASSWORD_CHANGE(?,?,?)';
     try {
         db.query(sqlQuerry, querryParams, function (err, results) {

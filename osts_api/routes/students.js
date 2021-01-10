@@ -28,7 +28,7 @@ router.post('/Add', function (req, res, next) {
     postParams.phone,
     postParams.class,//1 2 3 4 5 6 7 8
     postParams.username, // giriş adı
-    postParams.password,
+    md5(postParams.password),
     postParams.code // giriş şifresi
   ]
   console.log(postParams);
@@ -61,7 +61,7 @@ router.post('/Update', function (req, res, next) {
   var querryParams = [
     postParams.id,// ad
     postParams.username, // giriş adı
-    postParams.password, // giriş şifresi
+    md5(postParams.password), // giriş şifresi
     postParams.mail,
     postParams.phone
   ]
@@ -92,7 +92,7 @@ router.post('/UpdatePassword', function (req, res, next) {
   var postParams = req.body;
   var querryParams = [
     postParams.username, // giriş adı
-    postParams.password, // giriş şifresi
+    md5(postParams.password), // giriş şifresi
     postParams.mail,
     postParams.code
   ]

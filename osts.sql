@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Anamakine: localhost
--- Üretim Zamanı: 27 Ara 2020, 21:48:37
+-- Üretim Zamanı: 10 Oca 2021, 20:28:55
 -- Sunucu sürümü: 8.0.17
 -- PHP Sürümü: 7.3.10
 
@@ -65,24 +65,32 @@ SELECT lectures.lecture_id,lectures.lecture_year,lectures.lecture_title,lectures
 
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_LOGIN` (IN `_username` VARCHAR(50), IN `_password` INT(50))  READS SQL DATA
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_LOGIN` (IN `_username` VARCHAR(50), IN `_password` VARCHAR(50))  READS SQL DATA
 BEGIN
 
 DECLARE _usertype INT DEFAULT 0;
 DECLARE _userdetail INT DEFAULT 0;
 
+
+
+
+
+
 SET _usertype=(SELECT login.login_type from login WHERE
-            
+			
               login.login_name=_username AND
                login.login_password=_password AND login.isActive=1
               );
-              
+               
+            
+
     SET _userdetail=(SELECT login.login_detail_id from login WHERE
               
               login.login_name=_username AND
                login.login_password=_password AND
                      login.isActive=1
-              );      
+              );  
+              
        IF _usertype=1 THEN
               
        SELECT  login.login_id,login.login_name,login.login_password, students.student_id,
@@ -91,34 +99,24 @@ SET _usertype=(SELECT login.login_type from login WHERE
        LEFT JOIN classes on students.student_class_id=classes.class_id  
        WHERE login.login_name=_username AND login.login_password=_password;
        
-       END IF; 
               
-        IF _usertype=2 THEN
+	   ElseIF _usertype=2 THEN
               
        SELECT login.login_name,login.login_password,login.login_type,login.login_id,teachers.teacher_name,teachers.teacher_lastname,
        teachers.teacher_mail,teachers.teacher_phone,teachers.teacher_id
        from login left JOIN teachers  on teachers.teacher_id=login.login_detail_id WHERE login.isActive=1 And teachers.isActive=1 And login.login_name=_username AND
        login.login_password=_password;
-       
-       END IF;      
-       
-       
-       IF _usertype=3 THEN
+			
+		Else 
+			Update login set login.login_attempt = login.login_attempt +1 Where login.login_name=_username ;
+              Update login set login.login_blocked = 1 Where login.login_attempt>2;
+              Select login.login_attempt , login.login_blocked  from login Where login.login_name=_username;
               
-       SELECT login.login_name,login.login_password,login.login_id,
-ateachers.ateacher_id,ateachers.ateacher_name,login.login_type,ateachers.ateacher_lastname,ateachers.ateacher_phone,ateachers.ateacher_mail
-from login left JOIN ateachers on login.login_detail_id=ateachers.ateacher_id WHERE login.isActive=1 And login.login_name=_username AND
-       login.login_password=_password;
-       
-       END IF;    
-       
-       
-       
-      
-   
+		
+       End if;
+		
 
-
-END$$
+End$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_PASSWORD_UPDATE` (IN `_username` TEXT, IN `_password` TEXT, IN `_mail` TEXT, IN `_code` TEXT)  MODIFIES SQL DATA
 BEGIN
@@ -209,7 +207,7 @@ INSERT INTO login
  login.login_detail_id)
  VALUES
  (_username,
-  _password,
+   _password,
   1,
   _studentdetailid);
   
@@ -486,26 +484,41 @@ CREATE TABLE `login` (
   `login_password` varchar(50) NOT NULL,
   `login_detail_id` int(11) NOT NULL,
   `login_type` tinyint(4) NOT NULL,
-  `isActive` tinyint(1) NOT NULL DEFAULT '1'
+  `isActive` tinyint(1) NOT NULL DEFAULT '1',
+  `login_attempt` int(11) NOT NULL DEFAULT '0',
+  `login_blocked` tinyint(4) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Tablo döküm verisi `login`
 --
 
-INSERT INTO `login` (`login_id`, `login_name`, `login_password`, `login_detail_id`, `login_type`, `isActive`) VALUES
-(1, 'kullanici_adi', 'serdar', 1, 1, 0),
-(2, 'ahmet_bey', 'ahmet123', 1, 2, 1),
-(3, 'hakann', 'hakan123', 2, 2, 1),
-(4, 'name', 'pass', 2, 1, 0),
-(5, 'serdar', 'yenisifre', 3, 1, 1),
-(6, 'serdar2', 'serdar', 1, 2, 1),
-(7, 'fghfghf', 'serdar', 5, 1, 1),
-(8, 'furkan', '123', 6, 1, 1),
-(9, 'bilal', '123', 7, 1, 1),
-(10, 'ahmet', '123', 8, 1, 1),
-(14, 'yeniogr', '123', 6, 2, 1),
-(15, 'ghjhjnnb', '33333333333', 9, 1, 1);
+INSERT INTO `login` (`login_id`, `login_name`, `login_password`, `login_detail_id`, `login_type`, `isActive`, `login_attempt`, `login_blocked`) VALUES
+(1, 'kullanici_adi', '11a37959e906860a34392f586e544fd3', 1, 1, 1, 0, 0),
+(2, 'ahmet_bey', '6e4ecf2626c2be7564c59aeff463d098', 1, 2, 1, 0, 0),
+(3, 'hakann', '1c497b2556c5ae675e82bcd2d42d3ec3', 2, 2, 1, 0, 0),
+(4, 'name', '1a1dc91c907325c69271ddf0c944bc72', 2, 1, 1, 0, 0),
+(5, 'serdar', '11a37959e906860a34392f586e544fd3', 3, 1, 1, 0, 0),
+(6, 'serdar2', '11a37959e906860a34392f586e544fd3', 1, 2, 1, 0, 0),
+(7, 'fghfghf', '11a37959e906860a34392f586e544fd3', 5, 1, 1, 0, 0),
+(8, 'furkan', '202cb962ac59075b964b07152d234b70', 6, 1, 1, 0, 0),
+(9, 'bilal', '202cb962ac59075b964b07152d234b70', 7, 1, 1, 0, 0),
+(10, 'ahmet', '202cb962ac59075b964b07152d234b70', 8, 1, 0, 0, 0),
+(20, 'dfsgsdf', 'd58e3582afa99040e27b92b13c8f2280', 16, 1, 0, 0, 0),
+(21, 'sdfsdfsdf', '8c71fb3f7593543f2ad180d31148a7cf', 17, 1, 0, 0, 0),
+(22, 'dsfgsdfsdf', '8c71fb3f7593543f2ad180d31148a7cf', 18, 1, 0, 0, 0),
+(23, 'dfsfsdf', 'd58e3582afa99040e27b92b13c8f2280', 19, 1, 0, 0, 0),
+(24, 'erer', '4297f44b13955235245b2497399d7a93', 20, 1, 0, 0, 0),
+(25, 'sdfsdfd', 'e3edca0f6e68bfb76eaf26a8eb6dd94b', 21, 1, 0, 0, 0),
+(26, 'yyrty', '81dc9bdb52d04dc20036dbd8313ed055', 22, 1, 0, 0, 0),
+(27, 'rtertre', '1ba4b5224f2450731bcf62ee07b5629f', 23, 1, 1, 0, 0),
+(28, 'dfgdfg', '6523f9a8ff530a0d830477f5eabb2c8d', 24, 1, 0, 0, 0),
+(29, 'werwerewr', 'e10adc3949ba59abbe56e057f20f883e', 25, 1, 1, 0, 0),
+(30, 'rwerwe', '04e0dd9c76902b1bfc5c7b3bb4b1db92', 26, 1, 1, 0, 0),
+(31, 'dsfsdf', '8c71fb3f7593543f2ad180d31148a7cf', 27, 1, 1, 1, 0),
+(32, 'yeniogr1', 'ce9e8dc8a961356d7624f1f463edafb5', 7, 2, 1, 0, 0),
+(33, 'furkanyeni', 'yenifurkan', 8, 2, 1, 0, 0),
+(34, 'fffffff', '17396d81b11122aeb557e1cc29b08927', 9, 2, 1, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -530,14 +543,25 @@ CREATE TABLE `students` (
 --
 
 INSERT INTO `students` (`student_id`, `student_number`, `student_name`, `student_lastname`, `student_mail`, `student_phone`, `student_class_id`, `student_code`, `isActive`) VALUES
-(1, '62244414', 'Test', 'Test', 'test@mail.com', '5312456123', 1, '123456', 0),
-(2, '55181667', 'Ze', 'Te', 'zeze@mail.com', '123456', 4, '123456', 0),
+(1, '62244414', 'Test', 'Test', 'test@mail.com', '5312456123', 1, '123456', 1),
+(2, '55181667', 'Ze', 'Te', 'zeze@mail.com', '123456', 4, '123456', 1),
 (3, '32434233', 'serdar', 'ates', 'serdardfgdfg@gmail.com', '789456', 1, '456123', 1),
 (5, '1966091', 'serdar', 'ates', 'sdfsdf', '43534534', 1, '123456', 1),
 (6, '30004024', 'furkan', 'toptas', 'furkan.toptas@gmail.com', '053214527845', 1, '123456', 1),
 (7, '31195584', 'bilal', 'basulas', 'bilal@gmail.com', '05244112224', 1, '123456', 1),
-(8, '52792782', 'ahmet', 'ateş', 'ahmet.ates@gmail.com', '05321234578', 3, '123456', 1),
-(9, '88799649', 'yeniogrr', 'yenioger', 'dfhdhdfhd', '456456456', 1, '666666', 1);
+(8, '52792782', 'ahmet', 'ateş', 'ahmet.ates@gmail.com', '05321234578', 3, '123456', 0),
+(16, '41540091', 'asd', 'asdasd', 'asdasd@gmail.com', '32423', 1, '123456', 0),
+(17, '71801410', 'asdasdas', 'sadasdas', 'sdfsdfsd', '43534534', 1, '123456', 0),
+(18, '34386780', 'sdfsf', 'sdfsdfs', 'serdar@gmail.com', '12321312', 1, '123456', 0),
+(19, '56529673', 'asdasdasd', 'asdasdas', 'serdar@gmail.com', '342342342', 1, '123456', 0),
+(20, '79488029', 'serdar', 'ates', 'serdar@gmail.com', '324234234', 2, '123456', 0),
+(21, '27851130', 'serdar', 'ates', 'serdar@gmail.com', '123455', 1, '123456', 0),
+(22, '791565', 'serdar', 'ates', 'serdar@gmail.com', '23423423', 1, '123456', 0),
+(23, '20404438', 'serdar', 'ates', 'serdar@gmail.com', '32141234132', 1, '123456', 1),
+(24, '99647500', '34534543', 'sdfsdfsdf', 'serdar@gmail.com', '34234234', 1, '123456', 0),
+(25, '37024191', 'furkan', 'dsgdfgdfg', 'serdar@gmail.com', '23423432', 1, '123456', 1),
+(26, '86178456', 'dfgdfgdfg', 'serdar', 'serdar@gmail.com', '12321312312', 1, '123456', 1),
+(27, '19819711', 'dsfsdfsd', 'furkan', 'furkan@gmail.com', '12345678911', 1, '123456', 1);
 
 -- --------------------------------------------------------
 
@@ -562,7 +586,10 @@ CREATE TABLE `teachers` (
 INSERT INTO `teachers` (`teacher_id`, `teacher_name`, `teacher_lastname`, `teacher_mail`, `teacher_phone`, `teacher_detail`, `isActive`) VALUES
 (1, 'Ahmet Hoca', 'Bey', 'ahmetmail@mail.com', '5325520', 'Matematik ve Fen alanlarında uzman ayrıca edebiyat eğitimi almış.', 1),
 (2, 'Hakan', 'Hoca', 'hakan@mail.com', '02132102', 'Hakan bey Edebiyat uzmanıdır.', 1),
-(6, 'yeni ogr', 'yeni ogr', 'yeniogr@gmail.com', '543534534', 'ogretmen', 1);
+(6, 'yeni ogr', 'yeni ogr', 'yeniogr@gmail.com', '543534534', 'ogretmen', 1),
+(7, 'yeni ogretmen', 'yeni', 'yeniogr@gmail.com', '1234555678', 'matematik', 1),
+(8, 'Furkan', 'Yeni', 'furkan@gmail.com', '234234234', 'sdfsdfsd', 1),
+(9, 'bidahayenifurkan', 'yeni', 'furkan@gmail.com', '13123213', 'sdfsdf', 1);
 
 -- --------------------------------------------------------
 
@@ -571,14 +598,14 @@ INSERT INTO `teachers` (`teacher_id`, `teacher_name`, `teacher_lastname`, `teach
 -- (Asıl görünüm için aşağıya bakın)
 --
 CREATE TABLE `view_all_students` (
-`student_id` int(11)
-,`student_name` varchar(75)
+`login_name` varchar(50)
+,`login_password` varchar(50)
+,`student_class_id` int(11)
+,`student_id` int(11)
 ,`student_lastname` varchar(75)
 ,`student_mail` varchar(75)
+,`student_name` varchar(75)
 ,`student_phone` varchar(75)
-,`student_class_id` int(11)
-,`login_name` varchar(50)
-,`login_password` varchar(50)
 );
 
 -- --------------------------------------------------------
@@ -694,19 +721,19 @@ ALTER TABLE `lecture_teachers`
 -- Tablo için AUTO_INCREMENT değeri `login`
 --
 ALTER TABLE `login`
-  MODIFY `login_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `login_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `students`
 --
 ALTER TABLE `students`
-  MODIFY `student_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `student_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `teachers`
 --
 ALTER TABLE `teachers`
-  MODIFY `teacher_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `teacher_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

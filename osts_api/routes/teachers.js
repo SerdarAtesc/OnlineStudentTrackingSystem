@@ -11,7 +11,7 @@ router.post('/Add', function (req, res, next) {
       postParams.phone,
       postParams.detail,//1 2 3 4 5 6 7 8
       postParams.username, // giriş adı
-      postParams.password // giriş şifresi
+      md5(postParams.password) // giriş şifresi
     ]
     console.log(postParams);
     var sqlQuerry = 'CALL SP_TEACHER_ADD(?,?,?,?,?,?,?)';

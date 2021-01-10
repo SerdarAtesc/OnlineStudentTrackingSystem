@@ -50,9 +50,11 @@ export class LoginComponent implements OnInit {
       data=>{console.log(data);
         var cookieobj = this.cookie;
 
-  
-        cookieobj.set("login-type",data["login_type"]);
-        if(data["login_type"]==1)
+        
+        
+        try{
+          cookieobj.set("login-type",data["login_type"]);
+          if(data["login_type"]==1)
         {
           cookieobj.set("login",JSON.stringify(data));
           this._router.navigate(['userhome']);
@@ -62,9 +64,27 @@ export class LoginComponent implements OnInit {
           cookieobj.set("login",JSON.stringify(data));
           this._router.navigate(['adminhome']);
         }
-        else{
+        else if (data["login_blocked"]=1){
+          alert("Hesabınız Blokeli");
+        }
+        else if (data["login_attempt"]>0)
+        {
+          alert("şifrenizi yanlış girdiniz" + data["login_attempt"] + "")
+          if(data["login_attempt"]>2){
+            alert("3 kere şifreyi yanlış giridiğiniz için hesabınız kitlendi şifreyi sıfırlayın");
+          }
+        }
+        
+        else
+        {
           alert("Bilgileriniz Hatalı")
         }
+        }
+        catch(err){
+          alert("Bilgileriniz Hatalı")
+        }
+
+        
         
       },
       error=>console.error(error),

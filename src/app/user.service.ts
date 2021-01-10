@@ -21,7 +21,10 @@ export class UserService {
    }
 
   login(body: any){
+    console.log(body);
+    
     return this._http.post('http://localhost:3000/login', body, {
+      
       observe: 'body',
       withCredentials: true,
       headers: new HttpHeaders().append('Content-Type', 'application/json')

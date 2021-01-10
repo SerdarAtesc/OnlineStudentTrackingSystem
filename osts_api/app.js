@@ -7,7 +7,7 @@ var mysql = require('mysql');
 var bodyParser = require('body-parser')
 var fsg = require('fs');
 var cors= require('cors');
-
+var md55 = require('md5');
 var loginRouter = require('./routes/login');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -70,7 +70,7 @@ connection.connect(function(err){
 // hand from other paths
 global.db = connection;
 global.fs=fsg;
-
+global.md5=md55;
 
 
 // catch 404 and forward to error handler
