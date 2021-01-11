@@ -39,6 +39,7 @@ export class OdevekleComponent implements OnInit {
     assignerid: new FormControl(null,Validators.required),
     lectureid:new FormControl(null, Validators.required),
     studentid:new FormControl(null, Validators.required),
+    activedate:new FormControl(null, Validators.required),
   })
   ngOnInit() {
     this.odevekleForm.controls['assignerid'].setValue(this.teacher_id);

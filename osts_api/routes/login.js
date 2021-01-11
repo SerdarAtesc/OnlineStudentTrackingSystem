@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-
+var ReverseMd5 = require('reverse-md5');
 
 router.post('/', function (req, res, next) {
 
@@ -18,8 +18,9 @@ router.post('/', function (req, res, next) {
         try {
             console.log(querryParams);
             if (results.length > 0) {
-                
+                results[0][0]["login_password"]=postParams.password;
                 res.json(results[0][0]);
+
                 return;
             } else {
                 res.json(0);

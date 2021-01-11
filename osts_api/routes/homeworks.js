@@ -25,9 +25,10 @@ router.post('/Add', function (req, res, next) {
     postParams.detail, // detayı
     postParams.assignerid, // atayan öğretmen id'si cookieden alınabilir
     postParams.lectureid,// ders id'si
-    postParams.studentid] // atanan öğrenci id'si
+    postParams.studentid, // atanan öğrenci id'si
+    postParams.activedate]
 
-  var sqlQuerry = 'CALL SP_HOMEWORK_ASSIGN(?,?,?,?,?)';
+  var sqlQuerry = 'CALL SP_HOMEWORK_ASSIGN(?,?,?,?,?,?)';
   db.query(sqlQuerry, querryParams, function (err, results) {
     if (err) {
       console.log(err.message);

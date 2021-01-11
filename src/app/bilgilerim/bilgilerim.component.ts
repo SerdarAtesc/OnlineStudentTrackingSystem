@@ -4,7 +4,6 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { UserService } from '../user.service';
-
 @Component({
   selector: 'app-bilgilerim',
   templateUrl: './bilgilerim.component.html',
@@ -21,13 +20,14 @@ export class BilgilerimComponent implements OnInit {
   student_number;
   student_id;
   student_phone;
-  constructor(private cookie:CookieService,private user:UserService,private route:Router) {
-
+  constructor(private cookie:CookieService,private user:UserService,private route:Router,) {
+  
+    
     this.students = JSON.parse(this.cookie.get("login"));
     //console.log(this.students);
     this.student_id=this.students["student_id"];
     this.login_name=this.students["login_name"];
-    this.login_password=this.students["login_password"];
+    this.login_password= this.students["login_password"];
     this.student_class_id=this.students["student_class_id"];
     this.student_name=this.students["student_name"];
     this.student_lastname=this.students["student_lastname"];
@@ -38,7 +38,7 @@ export class BilgilerimComponent implements OnInit {
     this.fonksiyon();
 
    }
-
+   
 
    studentsUpdateForm :FormGroup = new FormGroup({
     

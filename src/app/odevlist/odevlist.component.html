@@ -9,6 +9,7 @@
             <th scope="col">homework_title</th>
             <th scope="col">homework_detail</th>
             <th scope="col">create_date</th>
+            <th scope="col">active_date</th>
             <th scope="col">last_date</th>
             <th scope="col">lecture_title</th>
           </tr>
@@ -32,10 +33,15 @@
     
                 <td>
                     {{item.create_date}}  
+                    
+                </td>
+                <td>
+                    {{item.homework_active_date}}    
                 </td>
                 <td>
                     {{item.last_date}}    
                 </td>
+                
                 <td>
                     {{item.lecture_title}}    
                 </td>

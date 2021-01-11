@@ -20,9 +20,13 @@
     "@angular/platform-browser-dynamic": "~10.2.0",
     "@angular/router": "~10.2.0",
     "bootstrap": "^4.5.3",
+    "crypto": "^1.0.1",
+    "crypto-js": "^4.0.0",
     "ngx-cookie-service": "^10.1.1",
     "ngx-show-hide-password": "^2.3.0",
+    "reverse-md5": "0.0.5",
     "rxjs": "~6.6.0",
+    "ts-md5": "^1.2.7",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.2"
   },
